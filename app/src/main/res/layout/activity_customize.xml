@@ -1,10 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Customize">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/sizeSelectTXT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Size:"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"/>
+            <View
+                android:id="@+id/sizeGuideline"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/sizeSelectTXT"
+                android:background="@color/gray"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
+
+            <RadioGroup
+                android:id="@+id/sizeSelectRBs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sizeGuideline"
+                android:layout_marginStart="10dp">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Small 10&quot;"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medium 12&quot;"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Large 16&quot;"/>
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/crustSelectTXT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Crust:"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/sizeSelectRBs"/>
+            <View
+                android:id="@+id/crustGuideline"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/crustSelectTXT"
+                android:background="@color/gray"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
+
+            <RadioGroup
+                android:id="@+id/crustSelectRBs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/crustGuideline"
+                android:layout_marginStart="10dp">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Regular"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thin Crust"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Garlic Butter"/>
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/cheeseSelectTXT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Cheese:"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/crustSelectRBs"/>
+
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>
