@@ -5,11 +5,12 @@ class Pizza {
     private var totalCost: Float = 0f
     private var numPizzas: Int = 0
 
-    //constant array of toppings and crust
+    //constant array of toppings, crust, cheese
     private val toppings: Array<String> =
         arrayOf("pepperoni", "sardines", "sausage", "bacon", "mushrooms",
             "peppers", "pineapple", "basil", "spinach", "olives")
     private val crustTypes: Array<String> = arrayOf("normal", "thin crust", "garlic butter")
+    private val cheeseTypes: Array<String> = arrayOf("mozzarella", "swiss", "parmesan", "none")
 
 
 }

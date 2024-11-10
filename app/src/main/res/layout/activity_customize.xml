@@ -31,7 +31,6 @@
                 android:background="@color/gray"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"/>
-
             <RadioGroup
                 android:id="@+id/sizeSelectRBs"
                 android:layout_width="wrap_content"
@@ -70,7 +69,6 @@
                 android:background="@color/gray"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"/>
-
             <RadioGroup
                 android:id="@+id/crustSelectRBs"
                 android:layout_width="wrap_content"
@@ -101,6 +99,57 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/crustSelectRBs"/>
+            <View
+                android:id="@+id/cheeseGuideline"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/cheeseSelectTXT"
+                android:background="@color/gray"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
+            <RadioGroup
+                android:id="@+id/cheeseSelectRBs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cheeseGuideline"
+                android:layout_marginStart="10dp">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mozarella"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Swiss"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Parmesan"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="None"/>
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/toppingSelectTXT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Toppings:"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/cheeseSelectRBs"/>
+            <View
+                android:id="@+id/toppingGuideline"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/toppingSelectTXT"
+                android:background="@color/gray"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
+
 
         </RelativeLayout>
     </ScrollView>
