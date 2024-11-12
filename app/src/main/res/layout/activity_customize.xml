@@ -178,6 +178,102 @@
                 android:layout_toEndOf="@id/sardinePic"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"/>
+            <ImageView
+                android:id="@+id/baconPic"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/bacon"
+                android:layout_below="@id/pepperoniPic"
+                android:layout_alignStart="@+id/pepperoniPic"
+                android:layout_marginTop="10dp"/>
+            <ImageView
+                android:id="@+id/mushroomPic"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/mushroom"
+                android:layout_alignTop="@+id/baconPic"
+                android:layout_alignStart="@+id/sardinePic"/>
+            <ImageView
+                android:id="@+id/pepperPic"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/peppers"
+                android:layout_alignTop="@+id/baconPic"
+                android:layout_alignStart="@+id/sausagePic"/>
+            <ImageView
+                android:id="@+id/pineapplePic"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/pineapple"
+                android:layout_below="@id/baconPic"
+                android:layout_alignStart="@+id/pepperoniPic"
+                android:layout_marginTop="10dp"/>
+            <ImageView
+                android:id="@+id/basilPic"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/basil"
+                android:layout_alignTop="@+id/pineapplePic"
+                android:layout_alignStart="@+id/sardinePic"/>
+            <ImageView
+                android:id="@+id/olivesPic"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/olives"
+                android:layout_alignTop="@+id/pineapplePic"
+                android:layout_alignStart="@+id/sausagePic"/>
+            <ImageView
+                android:id="@+id/spinachPic"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/spinach"
+                android:layout_below="@id/pineapplePic"
+                android:layout_alignStart="@+id/pepperoniPic"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/numPizzasTXT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Number of Pizzas:"
+                android:textSize="20sp"
+                android:layout_below="@+id/spinachPic"
+                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:id="@+id/costTXT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Cost: $ "
+                android:textSize="20sp"
+                android:layout_below="@+id/numPizzasTXT"
+                android:layout_alignStart="@+id/numPizzasTXT"
+                android:layout_marginTop="10dp"/>
+            <EditText
+                android:id="@+id/costNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.00"
+                android:inputType="numberDecimal"
+                android:enabled="false"
+                android:textSize="20sp"
+                android:layout_below="@+id/numPizzasTXT"
+                android:layout_toEndOf="@+id/costTXT"/>
+            <Button
+                android:id="@+id/finishPizza"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Finish Order"
+                android:textSize="20sp"
+                android:layout_below="@+id/costTXT"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"/>
 
         </RelativeLayout>
     </ScrollView>
