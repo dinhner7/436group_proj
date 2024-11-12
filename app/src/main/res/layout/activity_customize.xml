@@ -254,15 +254,13 @@
                 android:layout_below="@+id/numPizzasTXT"
                 android:layout_alignStart="@+id/numPizzasTXT"
                 android:layout_marginTop="10dp"/>
-            <EditText
+            <TextView
                 android:id="@+id/costNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.00"
-                android:inputType="numberDecimal"
-                android:enabled="false"
                 android:textSize="20sp"
-                android:layout_below="@+id/numPizzasTXT"
+                android:layout_alignTop="@+id/costTXT"
                 android:layout_toEndOf="@+id/costTXT"/>
             <Button
                 android:id="@+id/finishPizza"
