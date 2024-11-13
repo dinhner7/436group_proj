@@ -4,6 +4,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Customize">
 
     <ScrollView
@@ -18,19 +19,19 @@
                 android:id="@+id/sizeSelectTXT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select Size:"
-                android:textStyle="bold"
-                android:textSize="25sp"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:text="Select Size:"
+                android:textSize="25sp"
+                android:textStyle="bold" />
             <View
                 android:id="@+id/sizeGuideline"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_below="@+id/sizeSelectTXT"
-                android:background="@color/gray"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginEnd="10dp"
+                android:background="@color/gray" />
             <RadioGroup
                 android:id="@+id/sizeSelectRBs"
                 android:layout_width="wrap_content"
@@ -40,35 +41,35 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Small 10&quot;       $10.00"/>
+                    android:text="Small 10&quot;       $10.00" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Medium 12&quot;   $12.00"/>
+                    android:text="Medium 12&quot;   $12.00" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Large 16&quot;       $16.00"/>
+                    android:text="Large 16&quot;       $16.00" />
             </RadioGroup>
 
             <TextView
                 android:id="@+id/crustSelectTXT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select Crust:"
-                android:textStyle="bold"
-                android:textSize="25sp"
+                android:layout_below="@+id/sizeSelectRBs"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_below="@+id/sizeSelectRBs"/>
+                android:text="Select Crust:"
+                android:textSize="25sp"
+                android:textStyle="bold" />
             <View
                 android:id="@+id/crustGuideline"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_below="@+id/crustSelectTXT"
-                android:background="@color/gray"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginEnd="10dp"
+                android:background="@color/gray" />
             <RadioGroup
                 android:id="@+id/crustSelectRBs"
                 android:layout_width="wrap_content"
@@ -78,35 +79,35 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Regular"/>
+                    android:text="Regular" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Thin Crust"/>
+                    android:text="Thin Crust" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Garlic Butter"/>
+                    android:text="Garlic Butter" />
             </RadioGroup>
 
             <TextView
                 android:id="@+id/cheeseSelectTXT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select Cheese:"
-                android:textStyle="bold"
-                android:textSize="25sp"
+                android:layout_below="@+id/crustSelectRBs"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_below="@+id/crustSelectRBs"/>
+                android:text="Select Cheese:"
+                android:textSize="25sp"
+                android:textStyle="bold" />
             <View
                 android:id="@+id/cheeseGuideline"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_below="@+id/cheeseSelectTXT"
-                android:background="@color/gray"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginEnd="10dp"
+                android:background="@color/gray" />
             <RadioGroup
                 android:id="@+id/cheeseSelectRBs"
                 android:layout_width="wrap_content"
@@ -116,249 +117,296 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mozarella"/>
+                    android:text="Mozarella" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Swiss"/>
+                    android:text="Swiss" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Parmesan"/>
+                    android:text="Parmesan" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="None"/>
+                    android:text="None" />
             </RadioGroup>
 
             <TextView
                 android:id="@+id/toppingSelectTXT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select Toppings:"
-                android:textStyle="bold"
-                android:textSize="25sp"
+                android:layout_below="@+id/cheeseSelectRBs"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_below="@+id/cheeseSelectRBs"/>
+                android:text="Select Toppings:"
+                android:textSize="25sp"
+                android:textStyle="bold" />
             <View
                 android:id="@+id/toppingGuideline"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_below="@+id/toppingSelectTXT"
-                android:background="@color/gray"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginEnd="10dp"
+                android:background="@color/gray" />
 
             <ImageView
                 android:id="@+id/pepperoniPic"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/pepperoni"
                 android:layout_below="@id/toppingGuideline"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/pepperoni"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pepperoni"
-                android:textStyle="bold"
-                android:layout_alignTop="@+id/pepperoniPic"
                 android:layout_alignStart="@+id/pepperoniPic"
-                android:layout_marginStart="30dp"/>
+                android:layout_alignEnd="@+id/pepperoniPic"
+                android:layout_alignTop="@+id/pepperoniPic"
+                android:gravity="center"
+                android:text="Pepperoni"
+                android:textStyle="bold"/>
+
+
             <ImageView
                 android:id="@+id/sardinePic"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/sardines"
                 android:layout_below="@id/toppingGuideline"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/sardines"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sardines"
-                android:textStyle="bold"
-                android:layout_alignTop="@+id/pepperoniPic"
                 android:layout_alignStart="@+id/sardinePic"
-                android:layout_marginStart="30dp"/>
+                android:layout_alignEnd="@+id/sardinePic"
+                android:layout_alignTop="@+id/pepperoniPic"
+                android:gravity="center"
+                android:text="Sardines"
+                android:textStyle="bold"/>
             <ImageView
                 android:id="@+id/sausagePic"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/sausage"
                 android:layout_below="@id/toppingGuideline"
-                android:layout_toEndOf="@id/sardinePic"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@id/sardinePic"
+                android:scaleType="fitCenter"
+                android:src="@drawable/sausage"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sausage"
-                android:textStyle="bold"
-                android:layout_alignTop="@+id/pepperoniPic"
                 android:layout_alignStart="@+id/sausagePic"
-                android:layout_marginStart="30dp"/>
+                android:layout_alignEnd="@+id/sausagePic"
+                android:layout_alignTop="@+id/pepperoniPic"
+                android:gravity="center"
+                android:text="Sausage"
+                android:textStyle="bold"/>
 
             <ImageView
                 android:id="@+id/baconPic"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/bacon"
                 android:layout_below="@id/pepperoniPic"
                 android:layout_alignStart="@+id/pepperoniPic"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/bacon" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bacon"
-                android:textStyle="bold"
-                android:layout_alignTop="@+id/baconPic"
                 android:layout_alignStart="@+id/baconPic"
-                android:layout_marginStart="35dp"/>
+                android:layout_alignEnd="@+id/baconPic"
+                android:layout_alignTop="@+id/baconPic"
+                android:gravity="center"
+                android:text="Bacon"
+                android:textStyle="bold" />
             <ImageView
                 android:id="@+id/mushroomPic"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/mushroom"
+                android:layout_alignStart="@+id/sardinePic"
                 android:layout_alignTop="@+id/baconPic"
-                android:layout_alignStart="@+id/sardinePic"/>
+                android:scaleType="fitCenter"
+                android:src="@drawable/mushroom" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mushroom"
-                android:textStyle="bold"
-                android:layout_alignTop="@+id/baconPic"
                 android:layout_alignStart="@+id/mushroomPic"
-                android:layout_marginStart="25dp"/>
+                android:layout_alignEnd="@+id/mushroomPic"
+                android:layout_alignTop="@+id/baconPic"
+                android:gravity="center"
+                android:text="Mushroom"
+                android:textStyle="bold" />
             <ImageView
                 android:id="@+id/pepperPic"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/peppers"
+                android:layout_alignStart="@+id/sausagePic"
                 android:layout_alignTop="@+id/baconPic"
-                android:layout_alignStart="@+id/sausagePic"/>
+                android:scaleType="fitCenter"
+                android:src="@drawable/peppers" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Peppers"
-                android:textStyle="bold"
-                android:layout_alignTop="@+id/baconPic"
                 android:layout_alignStart="@+id/pepperPic"
-                android:layout_marginStart="30dp"/>
+                android:layout_alignEnd="@+id/pepperPic"
+                android:layout_alignTop="@+id/baconPic"
+                android:gravity="center"
+                android:text="Peppers"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/pineapplePic"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/pineapple"
                 android:layout_below="@id/baconPic"
                 android:layout_alignStart="@+id/pepperoniPic"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/pineapple" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pineapple"
-                android:textStyle="bold"
-                android:layout_alignTop="@+id/pineapplePic"
                 android:layout_alignStart="@+id/pineapplePic"
-                android:layout_marginStart="30dp"/>
+                android:layout_alignEnd="@+id/pineapplePic"
+                android:layout_alignTop="@+id/pineapplePic"
+                android:gravity="center"
+                android:text="Pineapple"
+                android:textStyle="bold" />
             <ImageView
                 android:id="@+id/basilPic"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/basil"
+                android:layout_alignStart="@+id/sardinePic"
                 android:layout_alignTop="@+id/pineapplePic"
-                android:layout_alignStart="@+id/sardinePic"/>
+                android:scaleType="fitCenter"
+                android:src="@drawable/basil" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Basil"
-                android:textStyle="bold"
-                android:layout_alignTop="@+id/pineapplePic"
                 android:layout_alignStart="@+id/basilPic"
-                android:layout_marginStart="45dp"/>
+                android:layout_alignEnd="@+id/basilPic"
+                android:layout_alignTop="@+id/pineapplePic"
+                android:gravity="center"
+                android:text="Basil"
+                android:textStyle="bold" />
             <ImageView
                 android:id="@+id/olivesPic"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/olives"
+                android:layout_alignStart="@+id/sausagePic"
                 android:layout_alignTop="@+id/pineapplePic"
-                android:layout_alignStart="@+id/sausagePic"/>
+                android:scaleType="fitCenter"
+                android:src="@drawable/olives" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Olives"
-                android:textStyle="bold"
-                android:layout_alignTop="@+id/pineapplePic"
                 android:layout_alignStart="@+id/olivesPic"
-                android:layout_marginStart="40dp"/>
+                android:layout_alignEnd="@+id/olivesPic"
+                android:layout_alignTop="@+id/pineapplePic"
+                android:gravity="center"
+                android:text="Olives"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/spinachPic"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/spinach"
                 android:layout_below="@id/pineapplePic"
                 android:layout_alignStart="@+id/pepperoniPic"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/spinach" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Spinach"
-                android:textStyle="bold"
-                android:layout_alignTop="@+id/spinachPic"
                 android:layout_alignStart="@+id/spinachPic"
-                android:layout_marginStart="30dp"/>
+                android:layout_alignEnd="@+id/spinachPic"
+                android:layout_alignTop="@+id/spinachPic"
+                android:gravity="center"
+                android:text="Spinach"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/numPizzasTXT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Number of Pizzas:"
-                android:textSize="20sp"
                 android:layout_below="@+id/spinachPic"
-                android:layout_centerHorizontal="true"/>
+                android:layout_marginStart="100dp"
+                android:text="Number of Pizzas:"
+                android:textSize="20sp" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/minusPizzaB"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="-"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:background="@drawable/button"
+                android:layout_below="@+id/spinachPic"
+                android:layout_toEndOf="@+id/numPizzasTXT"
+                android:layout_marginStart="10dp"/>
+            <TextView
+                android:id="@+id/numPizzasNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/numPizzasTXT"
+                android:layout_toEndOf="@+id/minusPizzaB"
+                android:layout_marginStart="10dp"
+                android:text="0"
+                android:textSize="20sp" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/plusPizzaB"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:text="+"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:background="@drawable/button"
+                android:layout_alignTop="@+id/minusPizzaB"
+                android:layout_toEndOf="@+id/numPizzasNumber"
+                android:layout_marginStart="10dp"/>
+
             <TextView
                 android:id="@+id/costTXT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total Cost: $ "
-                android:textSize="20sp"
                 android:layout_below="@+id/numPizzasTXT"
                 android:layout_alignStart="@+id/numPizzasTXT"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:text="Total Cost: $ "
+                android:textSize="20sp" />
             <TextView
                 android:id="@+id/costNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.00"
-                android:textSize="20sp"
                 android:layout_alignTop="@+id/costTXT"
-                android:layout_toEndOf="@+id/costTXT"/>
+                android:layout_toEndOf="@+id/costTXT"
+                android:text="0.00"
+                android:textSize="20sp" />
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/finishPizza"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:text="Finish Order"
-                android:background="@drawable/button"
-                android:textSize="20sp"
-                android:textColor="@color/white"
                 android:layout_below="@+id/costTXT"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button"
+                android:text="Finish Order"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
         </RelativeLayout>
     </ScrollView>
