@@ -340,13 +340,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/spinachPic"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="100dp"
                 android:text="Number of Pizzas:"
                 android:textSize="20sp" />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/minusPizzaB"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:text="-"
                 android:textStyle="bold"
                 android:textSize="20sp"
@@ -366,8 +367,8 @@
                 android:textSize="20sp" />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/plusPizzaB"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:text="+"
                 android:textStyle="bold"
                 android:textSize="20sp"
