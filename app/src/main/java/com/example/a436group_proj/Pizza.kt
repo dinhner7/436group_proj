@@ -12,5 +12,16 @@ class Pizza {
     private val crustTypes: Array<String> = arrayOf("normal", "thin crust", "garlic butter")
     private val cheeseTypes: Array<String> = arrayOf("mozzarella", "swiss", "parmesan", "none")
 
+    fun setSize(s : Int) {
+        size = s
+    }
+
+    fun setNumPizzas(num : Int) {
+        numPizzas = num
+    }
+
+    fun getTotal() : Float {
+        return totalCost
+    }
 
 }
