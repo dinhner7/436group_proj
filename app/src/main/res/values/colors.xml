@@ -3,4 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#888888</color>
+    <color name="piazza_blue">#3E7AAB</color>
+    <color name="piazza_darker_blue">#2965AD</color>
 </resources>
