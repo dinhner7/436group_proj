@@ -40,15 +40,15 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Small 10&quot;"/>
+                    android:text="Small 10&quot;       $10.00"/>
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Medium 12&quot;"/>
+                    android:text="Medium 12&quot;   $12.00"/>
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Large 16&quot;"/>
+                    android:text="Large 16&quot;       $16.00"/>
             </RadioGroup>
 
             <TextView
