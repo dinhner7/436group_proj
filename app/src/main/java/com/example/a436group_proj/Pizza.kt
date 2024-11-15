@@ -37,6 +37,10 @@ class Pizza {
         return numPizzas*(basePrice + toppings.size)
     }
 
+    fun getCostStr(): String {
+        return getTotalCost().toString()
+    }
+
     fun addTopping(str: String): Boolean{
         if(!toppings.contains(str)){
             toppings.add(str)
