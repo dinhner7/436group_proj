@@ -1,20 +1,32 @@
 package com.example.a436group_proj
 
 class Pizza {
-    private var size: Int = 1           //0,1,2 = small, medium, large
-    private var totalCost: Float = 0f
+    private var size: String = ""           //0,1,2 = small, medium, large
+    private var basePrice: Float = 0f   //base cost updated based on pizza size
     private var numPizzas: Int = 1
     private var toppings: ArrayList<String> = ArrayList()
+    private var crust: String = ""
+    private var cheese: String = ""
 
-    //constant array of toppings, crust, cheese
+    //constant array of toppings, crust, cheese just for record keeping
     private val toppingTypes: Array<String> =
         arrayOf("pepperoni", "sardines", "sausage", "bacon", "mushrooms",
-            "peppers", "pineapple", "basil", "olives", "spinach")
+            "peppers", "pineapple", "basil", "olives", "spinach")   //$1 extra per topping
     private val crustTypess: Array<String> = arrayOf("normal", "thin crust", "garlic butter")
     private val cheeseTypes: Array<String> = arrayOf("mozzarella", "swiss", "parmesan", "none")
 
-    fun setSize(s: Int) {
+    fun setSize(s: String) {
         size = s
+    }
+    fun setCrust(s: String) {
+        crust = s
+    }
+    fun setCheese(s: String){
+        cheese = s
+    }
+
+    fun setBasePrice(f: Float) {
+        basePrice = f
     }
 
     fun setNumPizzas(num: Int) {
@@ -22,7 +34,7 @@ class Pizza {
     }
 
     fun getTotalCost(): Float {
-        return totalCost
+        return numPizzas*(basePrice + toppings.size)
     }
 
     fun addTopping(str: String): Boolean{
