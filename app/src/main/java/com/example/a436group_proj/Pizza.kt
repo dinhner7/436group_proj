@@ -48,4 +48,11 @@ class Pizza {
         }
         return false
     }
+    fun removeTopping(str: String): Boolean{
+        if(toppings.contains(str)){
+            toppings.remove(str)
+            return true
+        }
+        return false
+    }
 }

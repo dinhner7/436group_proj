@@ -3,6 +3,7 @@ package com.example.a436group_proj
 import android.os.Bundle
 import android.widget.RadioGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -112,6 +113,90 @@ class Customize : AppCompatActivity() {
                 R.id.cheese3 -> p.setCheese("Parmesan")
                 R.id.cheese4 -> p.setCheese("None")
                 else -> p.setCheese("")
+            }
+        }
+        proniMinB.setOnClickListener{
+            if(p.removeTopping("pepperoni")){
+                Toast.makeText(this, "Pepperoni removed", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't remove", Toast.LENGTH_SHORT).show()
+            }
+        }
+        proniPlusB.setOnClickListener{
+            if(p.addTopping("pepperoni")){
+                Toast.makeText(this, "Pepperoni added", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't add again", Toast.LENGTH_SHORT).show()
+            }
+        }
+        sardineMinB.setOnClickListener{
+            if(p.removeTopping("sardines")){
+                Toast.makeText(this, "Sardines removed", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't remove", Toast.LENGTH_SHORT).show()
+            }
+        }
+        sardinePlusB.setOnClickListener{
+            if(p.addTopping("sardines")){
+                Toast.makeText(this, "Sardines added", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't add again", Toast.LENGTH_SHORT).show()
+            }
+        }
+        sausageMinB.setOnClickListener{
+            if(p.removeTopping("sausage")){
+                Toast.makeText(this, "Sausage removed", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't remove", Toast.LENGTH_SHORT).show()
+            }
+        }
+        sausagePlusB.setOnClickListener{
+            if(p.addTopping("sausage")){
+                Toast.makeText(this, "Sausage added", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't add again", Toast.LENGTH_SHORT).show()
+            }
+        }
+        baconMinB.setOnClickListener{
+            if(p.removeTopping("bacon")){
+                Toast.makeText(this, "Bacon removed", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't remove", Toast.LENGTH_SHORT).show()
+            }
+        }
+        baconPlusB.setOnClickListener{
+            if(p.addTopping("bacon")){
+                Toast.makeText(this, "Bacon added", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't add again", Toast.LENGTH_SHORT).show()
+            }
+        }
+        mushMinB.setOnClickListener{
+            if(p.removeTopping("mushrooms")){
+                Toast.makeText(this, "Mushrooms removed", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't remove", Toast.LENGTH_SHORT).show()
+            }
+        }
+        mushPlusB.setOnClickListener{
+            if(p.addTopping("mushrooms")){
+                Toast.makeText(this, "Mushrooms added", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't add again", Toast.LENGTH_SHORT).show()
+            }
+        }
+        pepperMinB.setOnClickListener{
+            if(p.removeTopping("peppers")){
+                Toast.makeText(this, "Peppers removed", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't remove", Toast.LENGTH_SHORT).show()
+            }
+        }
+        pepperPlusB.setOnClickListener{
+            if(p.addTopping("peppers")){
+                Toast.makeText(this, "Peppers added", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't add again", Toast.LENGTH_SHORT).show()
             }
         }
 
