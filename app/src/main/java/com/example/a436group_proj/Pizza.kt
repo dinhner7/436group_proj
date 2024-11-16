@@ -29,6 +29,12 @@ class Pizza {
         basePrice = f
     }
 
+    fun getNumPizzas(): Int {
+        return numPizzas
+    }
+    fun getNumPizzaStr(): String {
+        return numPizzas.toString()
+    }
     fun setNumPizzas(num: Int) {
         numPizzas = num
     }
@@ -38,9 +44,10 @@ class Pizza {
     }
 
     fun getCostStr(): String {
-        return getTotalCost().toString()
+        return "%.2f".format(getTotalCost())
     }
 
+    //add topping only if not already in list
     fun addTopping(str: String): Boolean{
         if(!toppings.contains(str)){
             toppings.add(str)
@@ -48,6 +55,7 @@ class Pizza {
         }
         return false
     }
+    //remove topping only if it is in the list
     fun removeTopping(str: String): Boolean{
         if(toppings.contains(str)){
             toppings.remove(str)

@@ -32,6 +32,8 @@ class HomeActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_home)
 
+        order = Order()
+
         greetingTV = findViewById(R.id.greeting)
         logoutB = findViewById(R.id.logout)
         addCheesePizzaB = findViewById(R.id.addCheesePizza)
@@ -122,5 +124,9 @@ class HomeActivity : AppCompatActivity() {
             var intent : Intent = Intent( this@HomeActivity, CheckoutActivity::class.java )
             this@HomeActivity.startActivity( intent )
         }
+    }
+
+    companion object{
+        lateinit var order: Order
     }
 }

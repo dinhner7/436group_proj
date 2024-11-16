@@ -82,7 +82,7 @@ class Customize : AppCompatActivity() {
     //make new pizza
         var p: Pizza = Pizza()
 
-    //set onclicklisteners
+    //set listeners for radio buttons
         sizeRG.setOnCheckedChangeListener {_, checkedId ->
             when(checkedId){
                 R.id.sizeS -> {p.setBasePrice(10.00f)
@@ -115,8 +115,10 @@ class Customize : AppCompatActivity() {
                 else -> p.setCheese("")
             }
         }
+    //set listeners for +/- buttons for toppings and numPizzas
         proniMinB.setOnClickListener{
             if(p.removeTopping("pepperoni")){
+                totalCost.text = p.getCostStr()
                 Toast.makeText(this, "Pepperoni removed", Toast.LENGTH_SHORT).show()
             }else{
                 Toast.makeText(this, "Can't remove", Toast.LENGTH_SHORT).show()
@@ -124,6 +126,7 @@ class Customize : AppCompatActivity() {
         }
         proniPlusB.setOnClickListener{
             if(p.addTopping("pepperoni")){
+                totalCost.text = p.getCostStr()
                 Toast.makeText(this, "Pepperoni added", Toast.LENGTH_SHORT).show()
             }else{
                 Toast.makeText(this, "Can't add again", Toast.LENGTH_SHORT).show()
@@ -131,6 +134,7 @@ class Customize : AppCompatActivity() {
         }
         sardineMinB.setOnClickListener{
             if(p.removeTopping("sardines")){
+                totalCost.text = p.getCostStr()
                 Toast.makeText(this, "Sardines removed", Toast.LENGTH_SHORT).show()
             }else{
                 Toast.makeText(this, "Can't remove", Toast.LENGTH_SHORT).show()
@@ -138,6 +142,7 @@ class Customize : AppCompatActivity() {
         }
         sardinePlusB.setOnClickListener{
             if(p.addTopping("sardines")){
+                totalCost.text = p.getCostStr()
                 Toast.makeText(this, "Sardines added", Toast.LENGTH_SHORT).show()
             }else{
                 Toast.makeText(this, "Can't add again", Toast.LENGTH_SHORT).show()
@@ -145,6 +150,7 @@ class Customize : AppCompatActivity() {
         }
         sausageMinB.setOnClickListener{
             if(p.removeTopping("sausage")){
+                totalCost.text = p.getCostStr()
                 Toast.makeText(this, "Sausage removed", Toast.LENGTH_SHORT).show()
             }else{
                 Toast.makeText(this, "Can't remove", Toast.LENGTH_SHORT).show()
@@ -152,6 +158,7 @@ class Customize : AppCompatActivity() {
         }
         sausagePlusB.setOnClickListener{
             if(p.addTopping("sausage")){
+                totalCost.text = p.getCostStr()
                 Toast.makeText(this, "Sausage added", Toast.LENGTH_SHORT).show()
             }else{
                 Toast.makeText(this, "Can't add again", Toast.LENGTH_SHORT).show()
@@ -159,12 +166,14 @@ class Customize : AppCompatActivity() {
         }
         baconMinB.setOnClickListener{
             if(p.removeTopping("bacon")){
+                totalCost.text = p.getCostStr()
                 Toast.makeText(this, "Bacon removed", Toast.LENGTH_SHORT).show()
             }else{
                 Toast.makeText(this, "Can't remove", Toast.LENGTH_SHORT).show()
             }
         }
         baconPlusB.setOnClickListener{
+            totalCost.text = p.getCostStr()
             if(p.addTopping("bacon")){
                 Toast.makeText(this, "Bacon added", Toast.LENGTH_SHORT).show()
             }else{
@@ -173,6 +182,7 @@ class Customize : AppCompatActivity() {
         }
         mushMinB.setOnClickListener{
             if(p.removeTopping("mushrooms")){
+                totalCost.text = p.getCostStr()
                 Toast.makeText(this, "Mushrooms removed", Toast.LENGTH_SHORT).show()
             }else{
                 Toast.makeText(this, "Can't remove", Toast.LENGTH_SHORT).show()
@@ -180,6 +190,7 @@ class Customize : AppCompatActivity() {
         }
         mushPlusB.setOnClickListener{
             if(p.addTopping("mushrooms")){
+                totalCost.text = p.getCostStr()
                 Toast.makeText(this, "Mushrooms added", Toast.LENGTH_SHORT).show()
             }else{
                 Toast.makeText(this, "Can't add again", Toast.LENGTH_SHORT).show()
@@ -187,6 +198,7 @@ class Customize : AppCompatActivity() {
         }
         pepperMinB.setOnClickListener{
             if(p.removeTopping("peppers")){
+                totalCost.text = p.getCostStr()
                 Toast.makeText(this, "Peppers removed", Toast.LENGTH_SHORT).show()
             }else{
                 Toast.makeText(this, "Can't remove", Toast.LENGTH_SHORT).show()
@@ -194,9 +206,103 @@ class Customize : AppCompatActivity() {
         }
         pepperPlusB.setOnClickListener{
             if(p.addTopping("peppers")){
+                totalCost.text = p.getCostStr()
                 Toast.makeText(this, "Peppers added", Toast.LENGTH_SHORT).show()
             }else{
                 Toast.makeText(this, "Can't add again", Toast.LENGTH_SHORT).show()
+            }
+        }
+        pappleMinB.setOnClickListener{
+            if(p.removeTopping("pineapple")){
+                totalCost.text = p.getCostStr()
+                Toast.makeText(this, "Pineapple removed", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't remove", Toast.LENGTH_SHORT).show()
+            }
+        }
+        papplePlusB.setOnClickListener{
+            if(p.addTopping("pineapple")){
+                totalCost.text = p.getCostStr()
+                Toast.makeText(this, "Pineapple added", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't add again", Toast.LENGTH_SHORT).show()
+            }
+        }
+        basilMinB.setOnClickListener{
+            if(p.removeTopping("basil")){
+                totalCost.text = p.getCostStr()
+                Toast.makeText(this, "Basil removed", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't remove", Toast.LENGTH_SHORT).show()
+            }
+        }
+        basilPlusB.setOnClickListener{
+            if(p.addTopping("basil")){
+                totalCost.text = p.getCostStr()
+                Toast.makeText(this, "Basil added", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't add again", Toast.LENGTH_SHORT).show()
+            }
+        }
+        olivesMinB.setOnClickListener{
+            if(p.removeTopping("olives")){
+                totalCost.text = p.getCostStr()
+                Toast.makeText(this, "Olives removed", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't remove", Toast.LENGTH_SHORT).show()
+            }
+        }
+        olivesPlusB.setOnClickListener{
+            if(p.addTopping("olives")){
+                totalCost.text = p.getCostStr()
+                Toast.makeText(this, "Olives added", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't add again", Toast.LENGTH_SHORT).show()
+            }
+        }
+        spinachMinB.setOnClickListener{
+            if(p.removeTopping("spinach")){
+                totalCost.text = p.getCostStr()
+                Toast.makeText(this, "Spinach removed", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't remove", Toast.LENGTH_SHORT).show()
+            }
+        }
+        spinachPlusB.setOnClickListener{
+            if(p.addTopping("spinach")){
+                totalCost.text = p.getCostStr()
+                Toast.makeText(this, "Spinach added", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Can't add again", Toast.LENGTH_SHORT).show()
+            }
+        }
+        numPizzaMinB.setOnClickListener{
+            if(p.getNumPizzas() > 1){
+                p.setNumPizzas(p.getNumPizzas() - 1)
+                numPizzasNumber.text = p.getNumPizzaStr()
+                totalCost.text = p.getCostStr()
+            }else{
+                Toast.makeText(this, "Must have at least 1 pizza", Toast.LENGTH_SHORT).show()
+            }
+        }
+        numPizzaPlusB.setOnClickListener{
+            p.setNumPizzas(p.getNumPizzas() + 1)
+            numPizzasNumber.text = p.getNumPizzaStr()
+            totalCost.text = p.getCostStr()
+        }
+    //set listener for finishOrder button
+    //add pizza to the order object in HomeActivity and
+    //finish customize only if all radio buttons selected
+        finOrder.setOnClickListener{
+            if(sizeRG.checkedRadioButtonId == -1){
+                Toast.makeText(this, "Select a Size", Toast.LENGTH_SHORT).show()
+            }else if(crustRG.checkedRadioButtonId == -1){
+                Toast.makeText(this, "Select a Crust", Toast.LENGTH_SHORT).show()
+            }else if(cheeseRG.checkedRadioButtonId == -1){
+                Toast.makeText(this, "Select a cheese", Toast.LENGTH_SHORT).show()
+            }else{
+                HomeActivity.order.addPizza(p)
+                this.finish()
             }
         }
 
