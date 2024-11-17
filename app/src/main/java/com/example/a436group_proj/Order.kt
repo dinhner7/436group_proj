@@ -17,4 +17,9 @@ class Order {
         return totalPrice
     }
 
+    fun applyDiscount(percentage: Int) {
+        val discount = totalPrice * (percentage / 100.0f)
+        totalPrice -= discount
+    }
+
 }
