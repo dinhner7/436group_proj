@@ -16,7 +16,7 @@ class ConfirmActivity: AppCompatActivity() {
     private lateinit var confirmButton: Button
     private lateinit var backButton: Button
     private lateinit var rating: RatingBar
-    private lateinit var ratingInfoTV: TextView
+    private lateinit var discountInfoTV: TextView
     private lateinit var cardname: EditText
     private lateinit var cardnumber: EditText
     private lateinit var cardexpire: EditText
@@ -32,6 +32,7 @@ class ConfirmActivity: AppCompatActivity() {
         confirmButton = findViewById(R.id.confirmButton)
         backButton = findViewById(R.id.backButton)
         rating = findViewById(R.id.ratingBar)
+        discountInfoTV = findViewById(R.id.discountInfo)
 
         cardname = findViewById(R.id.cardName)
         val cardNameString = cardnumber.text.toString()
@@ -59,7 +60,7 @@ class ConfirmActivity: AppCompatActivity() {
 
         rating.setOnRatingBarChangeListener { _, rating, _ ->
             if (rating == 5.0f) {
-                ratingInfoTV.text = "Discount: 10%"
+                discountInfoTV.text = "Discount: 10%"
             }
         }
 
