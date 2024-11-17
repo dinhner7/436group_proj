@@ -54,7 +54,7 @@ class ConfirmActivity: AppCompatActivity() {
                 "You've earned a discount for a previous 5-star rating!",
                 Toast.LENGTH_LONG
             ).show()
-            order.applyDiscount(10) // 10% 할인
+            order.applyDiscount(10) 
         }
 
 
@@ -92,7 +92,6 @@ class ConfirmActivity: AppCompatActivity() {
             val pizzas = order.getOrder()
             val totalPrice = order.getTotalPrice()
 
-            // 주문 요약 표시
             val summary = StringBuilder()
             pizzas.forEachIndexed { index, pizza ->
                 summary.append("Items:\n")
@@ -101,7 +100,6 @@ class ConfirmActivity: AppCompatActivity() {
                 summary.append("Crust: ${pizza.crust}\n")
                 summary.append("Cheese: ${pizza.cheese}\n")
                 summary.append("Toppings: ${pizza.toppings.joinToString(", ")}\n")
-                summary.append("Price: $${pizza.getTotalCost()}\n\n")
             }
             itemsTV.text = summary.toString()
 
