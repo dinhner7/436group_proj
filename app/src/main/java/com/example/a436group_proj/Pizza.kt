@@ -18,11 +18,24 @@ class Pizza {
     fun setSize(s: String) {
         size = s
     }
+    fun getSize():String {
+        return size
+    }
+
     fun setCrust(s: String) {
         crust = s
     }
+
+    fun getCrust():String{
+    return crust
+    }
+
     fun setCheese(s: String){
         cheese = s
+    }
+
+    fun getCheese():String{
+        return cheese
     }
 
     fun setBasePrice(f: Float) {
@@ -55,6 +68,11 @@ class Pizza {
         }
         return false
     }
+
+    fun getToppings():ArrayList<String>{
+        return toppings
+    }
+
     //remove topping only if it is in the list
     fun removeTopping(str: String): Boolean{
         if(toppings.contains(str)){
