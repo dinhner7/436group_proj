@@ -96,10 +96,10 @@ class ConfirmActivity: AppCompatActivity() {
             pizzas.forEachIndexed { index, pizza ->
                 summary.append("Items:\n")
                 summary.append("Pizza ${index + 1}:\n")
-                summary.append("Size: ${pizza.size}\n")
-                summary.append("Crust: ${pizza.crust}\n")
-                summary.append("Cheese: ${pizza.cheese}\n")
-                summary.append("Toppings: ${pizza.toppings.joinToString(", ")}\n")
+                summary.append("Size: ${pizza.getSize()}\n")
+                summary.append("Crust: ${pizza.getCrust()}\n")
+                summary.append("Cheese: ${pizza.getCheese()}\n")
+                summary.append("Toppings: ${pizza.getToppings().joinToString(", ")}\n")
             }
             itemsTV.text = summary.toString()
 
@@ -122,17 +122,16 @@ class ConfirmActivity: AppCompatActivity() {
             return sharedPref.getBoolean("hasGivenFiveStars", false)
         }
 
-        private fun saveCreditInfo(name:String,
-                                   number:String, expire:String, cvv:String){
-            val sharedPref = getSharedPreferences("CreditInfo",Context.MODE_PRIVATE)
-                with(sharedPref.edit()){
-                    putString("CardName", name)
-                    putString("CardNumber", number)
-                    putString("CardExpiry", expire)
-                    putString("CardCVV", cvv)
-                    apply()
-                }
+    private fun saveCreditInfo(name: String, number: String, expire: String, cvv: String) {
+        val sharedPref = getSharedPreferences("CreditInfo", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("CardName", name)
+            putString("CardNumber", number)
+            putString("CardExpiry", expire)
+            putString("CardCVV", cvv)
+            apply()
         }
+    }
 
 }
 
