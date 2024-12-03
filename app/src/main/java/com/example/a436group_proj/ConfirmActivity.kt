@@ -9,12 +9,13 @@ import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 
 class ConfirmActivity: AppCompatActivity() {
     private lateinit var itemsTV: TextView
     private lateinit var totalPriceTV: TextView
-    private lateinit var confirmButton: Button
-    private lateinit var backButton: Button
+    private lateinit var confirmButton: AppCompatButton
+    private lateinit var backButton: AppCompatButton
     private lateinit var rating: RatingBar
     private lateinit var discountInfoTV: TextView
     private lateinit var cardname: EditText
@@ -35,17 +36,14 @@ class ConfirmActivity: AppCompatActivity() {
         discountInfoTV = findViewById(R.id.discountInfo)
 
         cardname = findViewById(R.id.cardName)
-        val cardNameString = cardnumber.text.toString()
         cardnumber = findViewById(R.id.cardNumber)
-        val cardNumberString = cardnumber.text.toString()
         cardexpire = findViewById(R.id.cardExpire)
-        val cardExpireString = cardexpire.text.toString()
         cardcvv = findViewById(R.id.cardCVV)
-        val cardCVVString = cardcvv.text.toString()
 
 
         val order = HomeActivity.order
         displayorder(order)
+        displayCreditInfo()
 
         val hasDiscount = checkForDiscount()
         if (hasDiscount) {
@@ -67,6 +65,10 @@ class ConfirmActivity: AppCompatActivity() {
 
         confirmButton.setOnClickListener {
 
+            val cardNameString = cardname.text.toString()
+            val cardNumberString = cardnumber.text.toString()
+            val cardExpireString = cardexpire.text.toString()
+            val cardCVVString = cardcvv.text.toString()
             if (cardNameString.isEmpty() || cardNumberString.isEmpty() ||
                 cardExpireString.isEmpty() || cardCVVString.isEmpty()) {
                 Toast.makeText(this, "Please fill out all credit info fields.",
@@ -74,6 +76,7 @@ class ConfirmActivity: AppCompatActivity() {
             } else{
                 saveRating(rating.rating)
                 saveCreditInfo(cardNameString, cardNumberString, cardExpireString, cardCVVString)
+                HomeActivity.order.clearOrder()
                 Toast.makeText(this, "Thank you for your order!", Toast.LENGTH_SHORT).show()
                 finish()
             }
@@ -81,8 +84,8 @@ class ConfirmActivity: AppCompatActivity() {
         }
 
         backButton.setOnClickListener {
-            val intent = Intent(this, Customize::class.java)
-            startActivity(intent)
+            //val intent = Intent(this, HomeActivity::class.java)
+            //startActivity(intent)
             finish()
         }
     }
@@ -94,12 +97,17 @@ class ConfirmActivity: AppCompatActivity() {
 
             val summary = StringBuilder()
             pizzas.forEachIndexed { index, pizza ->
-                summary.append("Items:\n")
+                //summary.append("Items:\n")
                 summary.append("Pizza ${index + 1}:\n")
-                summary.append("Size: ${pizza.getSize()}\n")
+                summary.append("Size: ${pizza.getSizeStr()}\n")
                 summary.append("Crust: ${pizza.getCrust()}\n")
                 summary.append("Cheese: ${pizza.getCheese()}\n")
-                summary.append("Toppings: ${pizza.getToppings().joinToString(", ")}\n")
+                var toppings = pizza.getToppings().joinToString(", ")
+                if (toppings.isEmpty()) {
+                    summary.append("Toppings: None\n\n")
+                } else {
+                    summary.append("Toppings: ${toppings}\n\n")
+                }
             }
             itemsTV.text = summary.toString()
 
@@ -131,6 +139,19 @@ class ConfirmActivity: AppCompatActivity() {
             putString("CardCVV", cvv)
             apply()
         }
+    }
+
+    private fun displayCreditInfo() {
+        val sharedPref = getSharedPreferences("CreditInfo", Context.MODE_PRIVATE)
+        val name = sharedPref.getString("CardName", "")
+        val number = sharedPref.getString("CardNumber", "")
+        val expiry = sharedPref.getString("CardExpiry", "")
+        val cvv = sharedPref.getString("CardCVV", "")
+        // Display the saved credit info
+        cardname.setText(name)
+        cardnumber.setText(number)
+        cardexpire.setText(expiry)
+        cardcvv.setText(cvv)
     }
 
 }
