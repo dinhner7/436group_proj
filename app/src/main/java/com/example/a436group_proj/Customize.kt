@@ -302,6 +302,8 @@ class Customize : AppCompatActivity() {
                 Toast.makeText(this, "Select a cheese", Toast.LENGTH_SHORT).show()
             }else{
                 HomeActivity.order.addPizza(p)
+                HomeActivity.order.addToPrice(p.getTotalCost())
+                Toast.makeText(this, "Custom pizza added to cart", Toast.LENGTH_SHORT).show()
                 this.finish()
             }
         }

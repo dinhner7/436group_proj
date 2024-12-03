@@ -127,9 +127,10 @@ class MainActivity : AppCompatActivity() {
                 if (storedPassword != null && storedPassword == password) {
                     saveLoginState(email)
                     Toast.makeText(this@MainActivity, "Login successful", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this@MainActivity, MainActivity::class.java)
+                    val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                    intent.putExtra("USERNAME", safeEmail)
                     startActivity(intent)
-                    finish()
+                    //finish()
                 } else {
                     Toast.makeText(this@MainActivity, "Invalid email or password", Toast.LENGTH_LONG).show()
                 }
@@ -155,15 +156,16 @@ class MainActivity : AppCompatActivity() {
                     "zip" to ""
                 )
             ),
-            "orders" to "" // Placeholder for orders
+            "orders" to listOf<Map<String, Any>>() // Initialization for orders
         )
         database.child(safeEmail).setValue(userMap)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(this@MainActivity, "Account created successfully", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this@MainActivity, Customize::class.java)
+                    val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                    intent.putExtra("USERNAME", safeEmail)
                     startActivity(intent)
-                    finish()
+                    //finish()
                 } else {
                     Toast.makeText(this@MainActivity, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                 }
@@ -181,8 +183,9 @@ class MainActivity : AppCompatActivity() {
         val email = sharedPreferences.getString("email", null)
         if (email != null) {
             val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtra("USERNAME", email)
             startActivity(intent)
-            finish()
+            //finish()
         }
     }
 }
