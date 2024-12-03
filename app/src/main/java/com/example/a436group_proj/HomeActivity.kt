@@ -1,12 +1,14 @@
 package com.example.a436group_proj
 
 import android.content.Intent
+import android.content.SharedPreferences
 import com.google.android.gms.ads.AdRequest
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import com.google.android.gms.ads.AdError
@@ -23,6 +25,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var addPepperoniPizzaB : AppCompatButton
     private lateinit var customizePizzaB : AppCompatButton
     private lateinit var checkoutB : AppCompatButton
+    private lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var ad : InterstitialAd
 
@@ -31,6 +34,8 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_home)
+
+        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
 
         order = Order()
 
@@ -52,6 +57,16 @@ class HomeActivity : AppCompatActivity() {
 
     // Log out and go back to login view
     fun logout() {
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+        Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show()
+        // Redirect to the login screen (MainActivity)
+
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+
         finish()
     }
 
