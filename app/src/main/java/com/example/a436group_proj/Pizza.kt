@@ -17,9 +17,26 @@ class Pizza {
 
     fun setSize(s: String) {
         size = s
+        if (size == "0") {
+            basePrice = 10.0f
+        } else if (size == "1") {
+            basePrice = 12.0f
+        } else {
+            basePrice = 16.0f
+        }
     }
     fun getSize():String {
         return size
+    }
+
+    fun getSizeStr() : String {
+        if (size == "0") {
+            return "small"
+        } else if (size == "1") {
+            return "medium"
+        } else {
+            return "large"
+        }
     }
 
     fun setCrust(s: String) {

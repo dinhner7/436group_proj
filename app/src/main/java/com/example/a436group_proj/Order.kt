@@ -17,9 +17,18 @@ class Order {
         return totalPrice
     }
 
+    fun addToPrice(amount : Float) {
+        totalPrice += amount
+    }
+
     fun applyDiscount(percentage: Int) {
         val discount = totalPrice * (percentage / 100.0f)
         totalPrice -= discount
+    }
+
+    fun clearOrder() {
+        totalPrice = 0.0f
+        pizzas = ArrayList<Pizza>()
     }
 
 }
