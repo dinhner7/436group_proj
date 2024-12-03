@@ -1,0 +1,200 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".LoginActivity">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/loginTitleTXT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login or Create Account"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp" />
+
+    <!-- Divider -->
+    <View
+        android:id="@+id/titleGuideline"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray"
+        app:layout_constraintTop_toBottomOf="@id/loginTitleTXT"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <!-- Username Label -->
+    <TextView
+        android:id="@+id/usernameLabelTXT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username:"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/titleGuideline"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp" />
+
+    <!-- Username Input -->
+    <EditText
+        android:id="@+id/usernameInputET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your username"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/usernameLabelTXT"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <!-- Password Label -->
+    <TextView
+        android:id="@+id/passwordLabelTXT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Password:"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/usernameInputET"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp" />
+
+    <!-- Password Input -->
+    <EditText
+        android:id="@+id/passwordInputET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your password"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@id/passwordLabelTXT"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <!-- Name Label -->
+    <TextView
+        android:id="@+id/nameLabelTXT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name:"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/passwordInputET"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp" />
+
+    <!-- Name Input -->
+    <EditText
+        android:id="@+id/nameInputET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your name"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/nameLabelTXT"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <!-- Address Label -->
+    <TextView
+        android:id="@+id/addressLabelTXT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Address:"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/nameInputET"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp" />
+
+    <!-- Address Fields -->
+    <EditText
+        android:id="@+id/streetInputET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Street Address"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/addressLabelTXT"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <EditText
+        android:id="@+id/cityInputET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="City"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/streetInputET"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <EditText
+        android:id="@+id/stateInputET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="State"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/cityInputET"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <EditText
+        android:id="@+id/zipInputET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Zip Code"
+        android:visibility="gone"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@id/stateInputET"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <!-- Login Button -->
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        app:layout_constraintTop_toBottomOf="@id/zipInputET"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <!-- Create Account Button -->
+    <Button
+        android:id="@+id/createAccountButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create Account"
+        app:layout_constraintTop_toBottomOf="@id/loginButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
