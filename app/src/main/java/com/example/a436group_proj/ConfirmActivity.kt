@@ -10,6 +10,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+
 
 class ConfirmActivity: AppCompatActivity() {
     private lateinit var itemsTV: TextView
@@ -22,11 +25,14 @@ class ConfirmActivity: AppCompatActivity() {
     private lateinit var cardnumber: EditText
     private lateinit var cardexpire: EditText
     private lateinit var cardcvv: EditText
+    private lateinit var database: DatabaseReference
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm)
+
+        database = FirebaseDatabase.getInstance().reference.child("users")
 
         itemsTV = findViewById(R.id.items)
         totalPriceTV = findViewById(R.id.totalPrice)
@@ -39,6 +45,16 @@ class ConfirmActivity: AppCompatActivity() {
         cardnumber = findViewById(R.id.cardNumber)
         cardexpire = findViewById(R.id.cardExpire)
         cardcvv = findViewById(R.id.cardCVV)
+
+        //Retrieves email to save order or redirects to login if not logged in
+        val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        val email = sharedPreferences.getString("email", null)
+        if (email == null) {
+            Toast.makeText(this, "User email not found. Please log in again.", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
 
         val order = HomeActivity.order
@@ -76,6 +92,14 @@ class ConfirmActivity: AppCompatActivity() {
             } else{
                 saveRating(rating.rating)
                 saveCreditInfo(cardNameString, cardNumberString, cardExpireString, cardCVVString)
+
+                // Save the order to Firebase
+                if (email != null) {
+                    saveOrderToFirebase(order, email)
+                } else {
+                    Toast.makeText(this, "User email not found", Toast.LENGTH_SHORT).show()
+                }
+                
                 HomeActivity.order.clearOrder()
                 Toast.makeText(this, "Thank you for your order!", Toast.LENGTH_SHORT).show()
                 finish()
@@ -90,45 +114,83 @@ class ConfirmActivity: AppCompatActivity() {
         }
     }
 
+    private fun saveOrderToFirebase(order: Order, email: String) {
+        val safeEmail = email.replace(".", ",")
+        val userOrdersRef = database.child(safeEmail).child("orders")
 
-        private fun displayorder(order: Order) {
-            val pizzas = order.getOrder()
-            val totalPrice = order.getTotalPrice()
+        // Create a unique key for the new order
+        val newOrderRef = userOrdersRef.push()
 
-            val summary = StringBuilder()
-            pizzas.forEachIndexed { index, pizza ->
-                //summary.append("Items:\n")
-                summary.append("Pizza ${index + 1}:\n")
-                summary.append("Size: ${pizza.getSizeStr()}\n")
-                summary.append("Crust: ${pizza.getCrust()}\n")
-                summary.append("Cheese: ${pizza.getCheese()}\n")
-                var toppings = pizza.getToppings().joinToString(", ")
-                if (toppings.isEmpty()) {
-                    summary.append("Toppings: None\n\n")
-                } else {
-                    summary.append("Toppings: ${toppings}\n\n")
-                }
-            }
-            itemsTV.text = summary.toString()
+        // Get the current timestamp
+        val timestamp = System.currentTimeMillis()
 
+        // Prepare the order data
+        val orderData = mutableMapOf<String, Any>()
+        orderData["timestamp"] = timestamp
+        orderData["totalPrice"] = order.getTotalPrice()
 
-            totalPriceTV.text = "Total Price: $${"%.2f".format(totalPrice)}"
+        val pizzasList = mutableListOf<Map<String, Any>>()
+        for (pizza in order.getOrder()) {
+            val pizzaData = mutableMapOf<String, Any>()
+            pizzaData["size"] = pizza.getSizeStr()
+            pizzaData["crust"] = pizza.getCrust()
+            pizzaData["cheese"] = pizza.getCheese()
+            pizzaData["toppings"] = pizza.getToppings()
+            pizzasList.add(pizzaData)
         }
+        orderData["pizzas"] = pizzasList
 
-        private fun saveRating(rating: Float) {
-            if (rating == 5.0f) {
-                val sharedPref = getSharedPreferences("RatingData", Context.MODE_PRIVATE)
-                with(sharedPref.edit()) {
-                    putBoolean("hasGivenFiveStars", true)
-                    apply()
-                }
+        newOrderRef.setValue(orderData)
+            .addOnSuccessListener {
+                // Order saved successfully
+                Toast.makeText(this, "Order saved to account", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { exception ->
+                // Handle failure
+                Toast.makeText(this, "Failed to save order: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
+
+    private fun displayorder(order: Order) {
+        val pizzas = order.getOrder()
+        val totalPrice = order.getTotalPrice()
+
+        val summary = StringBuilder()
+        pizzas.forEachIndexed { index, pizza ->
+            //summary.append("Items:\n")
+            summary.append("Pizza ${index + 1}:\n")
+            summary.append("Size: ${pizza.getSizeStr()}\n")
+            summary.append("Crust: ${pizza.getCrust()}\n")
+            summary.append("Cheese: ${pizza.getCheese()}\n")
+            var toppings = pizza.getToppings().joinToString(", ")
+            if (toppings.isEmpty()) {
+                summary.append("Toppings: None\n\n")
+            } else {
+                summary.append("Toppings: ${toppings}\n\n")
             }
         }
+        itemsTV.text = summary.toString()
 
-        private fun checkForDiscount(): Boolean {
+
+        totalPriceTV.text = "Total Price: $${"%.2f".format(totalPrice)}"
+    }
+
+    private fun saveRating(rating: Float) {
+        if (rating == 5.0f) {
             val sharedPref = getSharedPreferences("RatingData", Context.MODE_PRIVATE)
-            return sharedPref.getBoolean("hasGivenFiveStars", false)
+            with(sharedPref.edit()) {
+                putBoolean("hasGivenFiveStars", true)
+                apply()
+            }
         }
+    }
+
+    private fun checkForDiscount(): Boolean {
+        val sharedPref = getSharedPreferences("RatingData", Context.MODE_PRIVATE)
+        return sharedPref.getBoolean("hasGivenFiveStars", false)
+    }
 
     private fun saveCreditInfo(name: String, number: String, expire: String, cvv: String) {
         val sharedPref = getSharedPreferences("CreditInfo", Context.MODE_PRIVATE)
