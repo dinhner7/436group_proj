@@ -76,6 +76,8 @@ class ConfirmActivity: AppCompatActivity() {
             if (rating == 5.0f) {
                 discountInfoTV.text = "Discount: 10%"
             }
+            Toast.makeText(this, "Thank you for rating our small business!",
+                Toast.LENGTH_SHORT).show()
         }
 
 
@@ -101,7 +103,12 @@ class ConfirmActivity: AppCompatActivity() {
                 }
                 
                 HomeActivity.order.clearOrder()
-                Toast.makeText(this, "Thank you for your order!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Thank you for your order! A confirmation email was sent to you.", Toast.LENGTH_SHORT).show()
+
+                // send email
+                var email : String = ""
+                sendEmail(order, email)
+
                 finish()
             }
 
@@ -154,23 +161,9 @@ class ConfirmActivity: AppCompatActivity() {
 
 
     private fun displayorder(order: Order) {
-        val pizzas = order.getOrder()
         val totalPrice = order.getTotalPrice()
 
-        val summary = StringBuilder()
-        pizzas.forEachIndexed { index, pizza ->
-            //summary.append("Items:\n")
-            summary.append("Pizza ${index + 1}:\n")
-            summary.append("Size: ${pizza.getSizeStr()}\n")
-            summary.append("Crust: ${pizza.getCrust()}\n")
-            summary.append("Cheese: ${pizza.getCheese()}\n")
-            var toppings = pizza.getToppings().joinToString(", ")
-            if (toppings.isEmpty()) {
-                summary.append("Toppings: None\n\n")
-            } else {
-                summary.append("Toppings: ${toppings}\n\n")
-            }
-        }
+        var summary = order.orderSummary()
         itemsTV.text = summary.toString()
 
 
@@ -214,6 +207,21 @@ class ConfirmActivity: AppCompatActivity() {
         cardnumber.setText(number)
         cardexpire.setText(expiry)
         cardcvv.setText(cvv)
+    }
+
+    fun sendEmail(order: Order, recipient: String) {
+        val subject = "Piazza Hut"
+        val body = "Thank you for ordering! Your order is being prepared.\n" + order.orderSummary()
+
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(recipient))
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+            putExtra(Intent.EXTRA_TEXT, body)
+        }
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
     }
 
 }
