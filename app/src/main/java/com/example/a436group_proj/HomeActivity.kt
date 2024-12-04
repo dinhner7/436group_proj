@@ -88,15 +88,29 @@ class HomeActivity : AppCompatActivity() {
         addPepperoniPizzaB.setOnClickListener { addPepperoniPizza() }
         customizePizzaB.setOnClickListener { sendToCustomize() }
         checkoutB.setOnClickListener { sendToCheckout(request, adUnitId, adLoad) }
+    }
 
-        val ordersRef = database.getReference("users").child(email!!).child("orders")
+    override fun onResume() {
+        super.onResume()
+        // Reload past orders when the activity resumes
+        loadPastOrders()
+    }
+
+
+    private fun loadPastOrders() {
+        val email = intent.getStringExtra("USERNAME") ?: return
+        val ordersLayout = findViewById<LinearLayout>(R.id.ordersLinearLayout)
+
+        // Clear existing views to prevent duplication
+        ordersLayout.removeAllViews()
+
+        val ordersRef = database.getReference("users").child(email).child("orders")
         ordersRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                     val ordersList = mutableListOf<Map<String, Any>>()
                     dataSnapshot.children.forEach { orderSnapshot ->
-                        val order = orderSnapshot.getValue(object :
-                            GenericTypeIndicator<Map<String, Any>>() {})
+                        val order = orderSnapshot.getValue(object : GenericTypeIndicator<Map<String, Any>>() {})
                         if (order != null) {
                             ordersList.add(order)
                         }
@@ -105,12 +119,6 @@ class HomeActivity : AppCompatActivity() {
                     for (orderData in ordersList) {
                         // Inflate the order_card layout
                         val orderView = LayoutInflater.from(this@HomeActivity).inflate(R.layout.order_card, ordersLayout, false)
-
-                        //make orders clickable
-                        orderView.setOnClickListener {
-                            showOrderDetailsDialog(orderData)
-                        }
-
 
                         // Set Order Date
                         val orderDateTV = orderView.findViewById<TextView>(R.id.orderDateTV)
@@ -135,10 +143,15 @@ class HomeActivity : AppCompatActivity() {
                             val size = pizzaData["size"] as? String ?: "Unknown Size"
                             val crust = pizzaData["crust"] as? String ?: "Unknown Crust"
                             val toppings = pizzaData["toppings"] as? List<String> ?: emptyList()
-                            val toppingsString = if (toppings.isNotEmpty()) toppings.joinToString(", ") else "None"
+                            val toppingsString = if (toppings.isNotEmpty()) toppings.joinToString(", ") else "No Toppings"
 
                             pizzaSummaryTV.text = "Pizza ${index + 1}: $size, $crust crust, Toppings: $toppingsString"
                             pizzaDetailsLayout.addView(pizzaSummaryTV)
+                        }
+
+                        // Make orders clickable
+                        orderView.setOnClickListener {
+                            showOrderDetailsDialog(orderData)
                         }
 
                         // Add the order card to the layout
@@ -153,7 +166,7 @@ class HomeActivity : AppCompatActivity() {
                     )
                     noOrdersTV.text = "No past orders"
                     noOrdersTV.textSize = 16f
-                    noOrdersTV.setTextColor(resources.getColor(R.color.piazza_blue))
+                    noOrdersTV.setTextColor(resources.getColor(R.color.gray))
                     ordersLayout.addView(noOrdersTV)
                 }
             }
@@ -162,8 +175,9 @@ class HomeActivity : AppCompatActivity() {
                 Log.e("Firebase", "Error: ${error.message}")
             }
         })
-
     }
+
+
 
     // Log out and go back to login view
     fun logout() {
