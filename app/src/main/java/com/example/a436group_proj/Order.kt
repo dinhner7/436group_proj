@@ -31,4 +31,23 @@ class Order {
         pizzas = ArrayList<Pizza>()
     }
 
+    fun orderSummary() : String {
+        val summary = StringBuilder()
+        pizzas.forEachIndexed { index, pizza ->
+            //summary.append("Items:\n")
+            summary.append("Pizza ${index + 1}:\n")
+            summary.append("Size: ${pizza.getSizeStr()}\n")
+            summary.append("Crust: ${pizza.getCrust()}\n")
+            summary.append("Cheese: ${pizza.getCheese()}\n")
+            var toppings = pizza.getToppings().joinToString(", ")
+            if (toppings.isEmpty()) {
+                summary.append("Toppings: None\n\n")
+            } else {
+                summary.append("Toppings: ${toppings}\n\n")
+            }
+        }
+
+        return summary.toString()
+    }
+
 }
