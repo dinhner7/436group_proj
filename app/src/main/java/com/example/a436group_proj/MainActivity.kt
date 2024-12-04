@@ -101,7 +101,7 @@ class MainActivity : AppCompatActivity() {
         nameInput.visibility = View.VISIBLE
         nameLabel.visibility = View.VISIBLE
         loginButton.visibility = View.GONE
-        Toast.makeText(this, "Enter your name and address to complete account creation", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Enter your name to complete account creation", Toast.LENGTH_SHORT).show()
     }
 
     private fun hideAccountCreationFields() {

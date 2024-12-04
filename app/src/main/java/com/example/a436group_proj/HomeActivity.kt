@@ -23,6 +23,15 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
 import kotlin.math.log
+import android.view.LayoutInflater
+import android.widget.LinearLayout
+import java.text.SimpleDateFormat
+import java.util.Locale
+import android.app.AlertDialog
+
+
+
+
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var greetingTV : TextView
@@ -59,7 +68,6 @@ class HomeActivity : AppCompatActivity() {
         addPepperoniPizzaB = findViewById(R.id.addPepperoniPizza)
         customizePizzaB = findViewById(R.id.sendToCustomize)
         checkoutB = findViewById(R.id.checkout)
-        lastOrderTV = findViewById(R.id.last_order)
 
         var builder : AdRequest.Builder = AdRequest.Builder()
         builder.addKeyword("food")
@@ -68,6 +76,11 @@ class HomeActivity : AppCompatActivity() {
         var adUnitId : String = "ca-app-pub-3940256099942544/1033173712"
         var adLoad : AdLoad = AdLoad()
 
+
+        //Past Orders
+
+        val ordersLayout = findViewById<LinearLayout>(R.id.ordersLinearLayout)
+
         // last order line 95
 
         logoutB.setOnClickListener { logout() }
@@ -75,31 +88,86 @@ class HomeActivity : AppCompatActivity() {
         addPepperoniPizzaB.setOnClickListener { addPepperoniPizza() }
         customizePizzaB.setOnClickListener { sendToCustomize() }
         checkoutB.setOnClickListener { sendToCheckout(request, adUnitId, adLoad) }
+    }
 
-        val ordersRef = database.getReference("users").child(email!!).child("accountInfo").child("orders")
+    override fun onResume() {
+        super.onResume()
+        // Reload past orders when the activity resumes
+        loadPastOrders()
+    }
+
+
+    private fun loadPastOrders() {
+        val email = intent.getStringExtra("USERNAME") ?: return
+        val ordersLayout = findViewById<LinearLayout>(R.id.ordersLinearLayout)
+
+        // Clear existing views to prevent duplication
+        ordersLayout.removeAllViews()
+
+        val ordersRef = database.getReference("users").child(email).child("orders")
         ordersRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                     val ordersList = mutableListOf<Map<String, Any>>()
                     dataSnapshot.children.forEach { orderSnapshot ->
-                        val order = orderSnapshot.getValue(object :
-                            GenericTypeIndicator<Map<String, Any>>() {})
+                        val order = orderSnapshot.getValue(object : GenericTypeIndicator<Map<String, Any>>() {})
                         if (order != null) {
                             ordersList.add(order)
                         }
                     }
-                    // Use the retrieved orders list
-                    val summary = StringBuilder()
-                    ordersList.forEachIndexed { index, pizza ->
-                        summary.append("Pizza ${index + 1}:\n")
-                        summary.append(pizza)
+                    // Iterate over past orders and create cards
+                    for (orderData in ordersList) {
+                        // Inflate the order_card layout
+                        val orderView = LayoutInflater.from(this@HomeActivity).inflate(R.layout.order_card, ordersLayout, false)
+
+                        // Set Order Date
+                        val orderDateTV = orderView.findViewById<TextView>(R.id.orderDateTV)
+                        val timestamp = orderData["timestamp"] as? Long ?: System.currentTimeMillis()
+                        val dateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+                        val dateString = dateFormat.format(timestamp)
+                        orderDateTV.text = "$dateString"
+
+                        // Set Total Price
+                        val totalPriceTV = orderView.findViewById<TextView>(R.id.totalPriceTV)
+                        val totalPrice = orderData["totalPrice"] as? Double ?: 0.0
+                        totalPriceTV.text = "$${String.format("%.2f", totalPrice)}"
+
+                        // Get Pizza Details
+                        val pizzaDetailsLayout = orderView.findViewById<LinearLayout>(R.id.pizzaDetailsLayout)
+                        val pizzas = orderData["pizzas"] as? List<Map<String, Any>> ?: emptyList()
+
+                        for ((index, pizzaData) in pizzas.withIndex()) {
+                            val pizzaSummaryTV = TextView(this@HomeActivity)
+                            pizzaSummaryTV.textSize = 14f
+                            pizzaSummaryTV.setTextColor(resources.getColor(R.color.white))
+                            val size = pizzaData["size"] as? String ?: "Unknown Size"
+                            val crust = pizzaData["crust"] as? String ?: "Unknown Crust"
+                            val toppings = pizzaData["toppings"] as? List<String> ?: emptyList()
+                            val toppingsString = if (toppings.isNotEmpty()) toppings.joinToString(", ") else "No Toppings"
+
+                            pizzaSummaryTV.text = "Pizza ${index + 1}: $size, $crust crust, Toppings: $toppingsString"
+                            pizzaDetailsLayout.addView(pizzaSummaryTV)
+                        }
+
+                        // Make orders clickable
+                        orderView.setOnClickListener {
+                            showOrderDetailsDialog(orderData)
+                        }
+
+                        // Add the order card to the layout
+                        ordersLayout.addView(orderView)
                     }
-
-                    lastOrderTV.text = summary.toString()
-
                 } else {
-                    //Log.d("Firebase", "No orders found")
-                    lastOrderTV.text = "No past orders"
+                    // No past orders
+                    val noOrdersTV = TextView(this@HomeActivity)
+                    noOrdersTV.layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    )
+                    noOrdersTV.text = "No past orders"
+                    noOrdersTV.textSize = 16f
+                    noOrdersTV.setTextColor(resources.getColor(R.color.gray))
+                    ordersLayout.addView(noOrdersTV)
                 }
             }
 
@@ -107,8 +175,9 @@ class HomeActivity : AppCompatActivity() {
                 Log.e("Firebase", "Error: ${error.message}")
             }
         })
-
     }
+
+
 
     // Log out and go back to login view
     fun logout() {
@@ -149,6 +218,98 @@ class HomeActivity : AppCompatActivity() {
 
         Toast.makeText(this, "Pepperoni Delight added to cart", Toast.LENGTH_SHORT).show()
     }
+
+    private fun showOrderDetailsDialog(orderData: Map<String, Any>) {
+        // Create a dialog
+        val dialogBuilder = AlertDialog.Builder(this)
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_order_details, null)
+        dialogBuilder.setView(dialogView)
+
+        // Initialize UI elements in the dialog
+        val orderDetailsTV = dialogView.findViewById<TextView>(R.id.orderDetailsTV)
+        val addToCartButton = dialogView.findViewById<AppCompatButton>(R.id.addToCartButton)
+
+        // Set order details
+        val pizzas = orderData["pizzas"] as? List<Map<String, Any>> ?: emptyList()
+        val totalPrice = orderData["totalPrice"] as? Double ?: 0.0
+
+        val summary = StringBuilder()
+        pizzas.forEachIndexed { index, pizzaData ->
+            summary.append("Pizza ${index + 1}:\n")
+            val size = pizzaData["size"] as? String ?: "Unknown Size"
+            val crust = pizzaData["crust"] as? String ?: "Unknown Crust"
+            val cheese = pizzaData["cheese"] as? String ?: "Unknown Cheese"
+            val toppings = pizzaData["toppings"] as? List<String> ?: emptyList()
+            val toppingsString = if (toppings.isNotEmpty()) toppings.joinToString(", ") else "No Toppings"
+
+            summary.append("Size: $size\n")
+            summary.append("Crust: $crust\n")
+            summary.append("Cheese: $cheese\n")
+            summary.append("Toppings: $toppingsString\n\n")
+        }
+        summary.append("Total Price: $${String.format("%.2f", totalPrice)}")
+
+        orderDetailsTV.text = summary.toString()
+
+        // Create and show the dialog
+        val alertDialog = dialogBuilder.create()
+        alertDialog.show()
+
+        // Handle the Add to Cart button
+        addToCartButton.setOnClickListener {
+            // Add the order to the current cart
+            addOrderToCart(orderData)
+            Toast.makeText(this, "Order added to cart", Toast.LENGTH_SHORT).show()
+            alertDialog.dismiss()
+        }
+    }
+
+    private fun addOrderToCart(orderData: Map<String, Any>) {
+        val pizzas = orderData["pizzas"] as? List<Map<String, Any>> ?: emptyList()
+
+        for (pizzaData in pizzas) {
+            val pizza = Pizza()
+            val size = pizzaData["size"] as? String ?: ""
+            val crust = pizzaData["crust"] as? String ?: ""
+            val cheese = pizzaData["cheese"] as? String ?: ""
+            val toppings = pizzaData["toppings"] as? List<String> ?: emptyList()
+
+            // Set size and base price
+            when (size) {
+                "Small" -> {
+                    pizza.setSize("Small")
+                    pizza.setBasePrice(10.00f)
+                }
+                "Medium" -> {
+                    pizza.setSize("Medium")
+                    pizza.setBasePrice(12.00f)
+                }
+                "Large" -> {
+                    pizza.setSize("Large")
+                    pizza.setBasePrice(16.00f)
+                }
+                else -> {
+                    pizza.setSize("Unknown")
+                    pizza.setBasePrice(0f)
+                }
+            }
+
+            // Set crust and cheese
+            pizza.setCrust(crust)
+            pizza.setCheese(cheese)
+
+            // Add toppings
+            for (topping in toppings) {
+                pizza.addTopping(topping)
+            }
+
+            // Add pizza to the current order
+            order.addPizza(pizza)
+            order.addToPrice(pizza.getTotalCost())
+        }
+    }
+
 
     // Direct to customization view
     fun sendToCustomize() {
