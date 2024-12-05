@@ -66,8 +66,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // change name in greeting
         greetingTV = findViewById(R.id.greeting)
-        val username = intent.getStringExtra("USERNAME")
-        email = intent.getStringExtra("EMAIL")!!
+        val username = sharedPreferences.getString("username", null)
         greetingTV.text = "Hello, " + username + "!"
         logoutB = findViewById(R.id.logout)
         addCheesePizzaB = findViewById(R.id.addCheesePizza)
@@ -371,7 +370,6 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
 
             // go to next view
             var intent : Intent = Intent( this@HomeActivity, ConfirmActivity::class.java )
-            intent.putExtra("EMAIL", email)
             this@HomeActivity.startActivity( intent )
         }
     }

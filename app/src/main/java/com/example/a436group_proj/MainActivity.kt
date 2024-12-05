@@ -138,8 +138,6 @@ class MainActivity : AppCompatActivity() {
                     saveLoginState(username, storedEmail!!)
                     Toast.makeText(this@MainActivity, "Login successful", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@MainActivity, HomeActivity::class.java)
-                    intent.putExtra("USERNAME", safeUsername)
-                    intent.putExtra("EMAIL", storedEmail)
                     startActivity(intent)
                     //finish()
                 } else {
@@ -175,8 +173,6 @@ class MainActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Toast.makeText(this@MainActivity, "Account created successfully", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@MainActivity, HomeActivity::class.java)
-                    intent.putExtra("USERNAME", safeUsername)
-                    intent.putExtra("EMAIL", email)
                     startActivity(intent)
                     //finish()
                 } else {
@@ -195,12 +191,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun autoLogin() {
         val username = sharedPreferences.getString("username", null)
-        val email = sharedPreferences.getString("email", null)
-        email!!.trim()
-        if (username != null && email != null) {
+        if (username != null) {
             val intent = Intent(this, HomeActivity::class.java)
-            intent.putExtra("USERNAME", username)
-            intent.putExtra("EMAIL", email)
             startActivity(intent)
             //finish()
         }
