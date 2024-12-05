@@ -20,6 +20,11 @@
             android:value="ca-app-pub-3940256099942544~3347511713"
             />
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps" />
+
+
         <activity
             android:name=".Customize"
             android:exported="false" />
