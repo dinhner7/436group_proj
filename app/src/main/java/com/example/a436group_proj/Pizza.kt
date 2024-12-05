@@ -17,12 +17,14 @@ class Pizza {
 
     fun setSize(s: String) {
         size = s
-        if (size == "0") {
+        if (size == "Small") {
             basePrice = 10.0f
-        } else if (size == "1") {
+        } else if (size == "Medium") {
             basePrice = 12.0f
-        } else {
+        } else if(size == "Large") {
             basePrice = 16.0f
+        } else {
+            basePrice = 0f
         }
     }
     fun getSize():String {
@@ -53,10 +55,6 @@ class Pizza {
 
     fun getCheese():String{
         return cheese
-    }
-
-    fun setBasePrice(f: Float) {
-        basePrice = f
     }
 
     fun getNumPizzas(): Int {

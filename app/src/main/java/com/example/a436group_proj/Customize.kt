@@ -85,19 +85,14 @@ class Customize : AppCompatActivity() {
     //set listeners for radio buttons
         sizeRG.setOnCheckedChangeListener {_, checkedId ->
             when(checkedId){
-                R.id.sizeS -> {p.setBasePrice(10.00f)
-                               p.setSize("Small")
+                R.id.sizeS -> {p.setSize("Small")
                                totalCost.text = p.getCostStr()}
-                R.id.sizeM -> {p.setBasePrice(12.00f)
-                               p.setSize("Medium")
+                R.id.sizeM -> {p.setSize("Medium")
                                totalCost.text = p.getCostStr()}
-                R.id.sizeL -> {p.setBasePrice(16.00f)
-                               p.setSize("Large")
+                R.id.sizeL -> {p.setSize("Large")
                                totalCost.text = p.getCostStr()}
-                else -> {p.setBasePrice(0f)
-                         p.setSize("")}
+                else -> {p.setSize("")}
             }
-            totalCost.text = p.getCostStr()
         }
         crustRG.setOnCheckedChangeListener {_, checkedId ->
             when(checkedId){

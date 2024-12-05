@@ -287,19 +287,15 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
             when (size) {
                 "Small" -> {
                     pizza.setSize("Small")
-                    pizza.setBasePrice(10.00f)
                 }
                 "Medium" -> {
                     pizza.setSize("Medium")
-                    pizza.setBasePrice(12.00f)
                 }
                 "Large" -> {
                     pizza.setSize("Large")
-                    pizza.setBasePrice(16.00f)
                 }
                 else -> {
                     pizza.setSize("Unknown")
-                    pizza.setBasePrice(0f)
                 }
             }
 
