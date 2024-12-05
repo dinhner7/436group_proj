@@ -97,6 +97,7 @@ class Customize : AppCompatActivity() {
                 else -> {p.setBasePrice(0f)
                          p.setSize("")}
             }
+            totalCost.text = p.getCostStr()
         }
         crustRG.setOnCheckedChangeListener {_, checkedId ->
             when(checkedId){
