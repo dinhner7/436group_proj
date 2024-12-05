@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">436group_proj</string>
+    <string name="google_maps" templateMergeStrategy="preservable" translatable="false">AIzaSyD4Hyu7Qafpzmnmr9_fmgNucP9sGxFfXV4</string>
 </resources>
