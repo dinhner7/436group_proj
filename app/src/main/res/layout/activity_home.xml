@@ -19,7 +19,8 @@
             android:layout_centerInParent="true"
             android:hand_hourTint="@color/white"
             android:hand_minuteTint="@color/white"
-            android:dialTint="@color/piazza_darker_blue"/>
+            android:dialTint="@color/piazza_darker_blue"
+            android:layout_margin="3dp"/>
 
         <TextView
             android:id="@+id/greeting"
