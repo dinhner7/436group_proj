@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var createAccountButton: Button
     private lateinit var nameInput: EditText
     private lateinit var nameLabel: TextView
+    private lateinit var emailLabel : TextView
+    private lateinit var emailInput : EditText
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,17 +62,19 @@ class MainActivity : AppCompatActivity() {
         createAccountButton = findViewById(R.id.createAccountButton)
         nameInput = findViewById(R.id.nameInputET)
         nameLabel = findViewById(R.id.nameLabelTXT)
+        emailInput = findViewById(R.id.emailInputET)
+        emailLabel = findViewById(R.id.emailLabelTXT)
 
 
         Log.d("Debug", "CreateAccountButton initialized: $createAccountButton")
 
         // Handle Login
         loginButton.setOnClickListener {
-            val email = usernameInput.text.toString().trim()
+            val username = usernameInput.text.toString().trim()
             val password = passwordInput.text.toString()
 
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                loginUser(email, password)
+            if (username.isNotEmpty() && password.isNotEmpty()) {
+                loginUser(username, password)
             } else {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             }
@@ -81,13 +85,14 @@ class MainActivity : AppCompatActivity() {
             if (nameInput.visibility == View.GONE) {
                 showAccountCreationFields()
             } else {
-                val email = usernameInput.text.toString().trim()
+                val username = usernameInput.text.toString().trim()
                 val password = passwordInput.text.toString()
                 val name = nameInput.text.toString().trim()
+                val email = emailInput.text.toString().trim()
 
 
-                if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()) {
-                    createAccount(email, password, name)
+                if (username.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty() && email.isNotEmpty()) {
+                    createAccount(username, password, name, email)
                 } else {
                     Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
                 }
@@ -100,6 +105,8 @@ class MainActivity : AppCompatActivity() {
     private fun showAccountCreationFields() {
         nameInput.visibility = View.VISIBLE
         nameLabel.visibility = View.VISIBLE
+        emailLabel.visibility = View.VISIBLE
+        emailInput.visibility = View.VISIBLE
         loginButton.visibility = View.GONE
         Toast.makeText(this, "Enter your name to complete account creation", Toast.LENGTH_SHORT).show()
     }
@@ -107,6 +114,8 @@ class MainActivity : AppCompatActivity() {
     private fun hideAccountCreationFields() {
         nameInput.visibility = View.GONE
         nameLabel.visibility = View.GONE
+        emailLabel.visibility = View.GONE
+        emailInput.visibility = View.GONE
         loginButton.visibility = View.VISIBLE
     }
 
@@ -119,16 +128,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loginUser(email: String, password: String) {
-        val safeEmail = email.replace(".", ",")
-        database.child(safeEmail).addListenerForSingleValueEvent(object : ValueEventListener {
+    private fun loginUser(username: String, password: String) {
+        val safeUsername = username.replace(".", ",")
+        database.child(safeUsername).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val storedPassword = snapshot.child("accountInfo/password").getValue(String::class.java)
+                val storedEmail = snapshot.child("accountInfo/email").getValue(String::class.java)
                 if (storedPassword != null && storedPassword == password) {
-                    saveLoginState(email)
+                    saveLoginState(username, storedEmail!!)
                     Toast.makeText(this@MainActivity, "Login successful", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@MainActivity, HomeActivity::class.java)
-                    intent.putExtra("USERNAME", safeEmail)
+                    intent.putExtra("USERNAME", safeUsername)
+                    intent.putExtra("EMAIL", storedEmail)
                     startActivity(intent)
                     //finish()
                 } else {
@@ -142,12 +153,13 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun createAccount(email: String, password: String, name: String) {
-        val safeEmail = email.replace(".", ",")
+    private fun createAccount(username: String, password: String, name: String, email: String) {
+        val safeUsername = username.replace(".", ",")
         val userMap = mapOf(
             "accountInfo" to mapOf(
-                "email" to email,
+                "username" to username,
                 "password" to password,
+                "email" to email,
                 "name" to name,
                 "address" to mapOf(
                     "street" to "",
@@ -158,12 +170,13 @@ class MainActivity : AppCompatActivity() {
             ),
             "orders" to listOf<Map<String, Any>>() // Initialization for orders
         )
-        database.child(safeEmail).setValue(userMap)
+        database.child(safeUsername).setValue(userMap)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(this@MainActivity, "Account created successfully", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@MainActivity, HomeActivity::class.java)
-                    intent.putExtra("USERNAME", safeEmail)
+                    intent.putExtra("USERNAME", safeUsername)
+                    intent.putExtra("EMAIL", email)
                     startActivity(intent)
                     //finish()
                 } else {
@@ -172,18 +185,22 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    private fun saveLoginState(email: String) {
+    private fun saveLoginState(username: String, email: String) {
         val editor = sharedPreferences.edit()
+        editor.putString("username", username)
         editor.putString("email", email)
         editor.apply()
     }
 
 
     private fun autoLogin() {
+        val username = sharedPreferences.getString("username", null)
         val email = sharedPreferences.getString("email", null)
-        if (email != null) {
+        email!!.trim()
+        if (username != null && email != null) {
             val intent = Intent(this, HomeActivity::class.java)
-            intent.putExtra("USERNAME", email)
+            intent.putExtra("USERNAME", username)
+            intent.putExtra("EMAIL", email)
             startActivity(intent)
             //finish()
         }

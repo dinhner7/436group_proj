@@ -28,12 +28,16 @@ import android.widget.LinearLayout
 import java.text.SimpleDateFormat
 import java.util.Locale
 import android.app.AlertDialog
+import com.google.android.gms.maps.CameraUpdate
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
 
-
-
-
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var greetingTV : TextView
     private lateinit var logoutB : AppCompatButton
     private lateinit var addCheesePizzaB : AppCompatButton
@@ -41,10 +45,11 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var customizePizzaB : AppCompatButton
     private lateinit var checkoutB : AppCompatButton
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var lastOrderTV : TextView
 
     private lateinit var ad : InterstitialAd
     private lateinit var database: FirebaseDatabase
+    private var email : String = ""
+    private lateinit var map : GoogleMap
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,8 +66,9 @@ class HomeActivity : AppCompatActivity() {
 
         // change name in greeting
         greetingTV = findViewById(R.id.greeting)
-        val email = intent.getStringExtra("USERNAME")
-        greetingTV.text = "Hello, " + email + "!"
+        val username = intent.getStringExtra("USERNAME")
+        email = intent.getStringExtra("EMAIL")!!
+        greetingTV.text = "Hello, " + username + "!"
         logoutB = findViewById(R.id.logout)
         addCheesePizzaB = findViewById(R.id.addCheesePizza)
         addPepperoniPizzaB = findViewById(R.id.addPepperoniPizza)
@@ -76,6 +82,8 @@ class HomeActivity : AppCompatActivity() {
         var adUnitId : String = "ca-app-pub-3940256099942544/1033173712"
         var adLoad : AdLoad = AdLoad()
 
+        var fragment : SupportMapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        fragment.getMapAsync(this)
 
         //Past Orders
 
@@ -98,13 +106,13 @@ class HomeActivity : AppCompatActivity() {
 
 
     private fun loadPastOrders() {
-        val email = intent.getStringExtra("USERNAME") ?: return
+        val username = intent.getStringExtra("USERNAME") ?: return
         val ordersLayout = findViewById<LinearLayout>(R.id.ordersLinearLayout)
 
         // Clear existing views to prevent duplication
         ordersLayout.removeAllViews()
 
-        val ordersRef = database.getReference("users").child(email).child("orders")
+        val ordersRef = database.getReference("users").child(username).child("orders")
         ordersRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -363,11 +371,26 @@ class HomeActivity : AppCompatActivity() {
 
             // go to next view
             var intent : Intent = Intent( this@HomeActivity, ConfirmActivity::class.java )
+            intent.putExtra("EMAIL", email)
             this@HomeActivity.startActivity( intent )
         }
     }
 
     companion object{
         lateinit var order: Order
+    }
+
+    override fun onMapReady(p0: GoogleMap) {
+        map = p0
+
+        var piazzaHut : LatLng = LatLng(38.9810, -76.9369)
+        var camera : CameraUpdate = CameraUpdateFactory.newLatLngZoom(piazzaHut, 18.0f)
+        map.moveCamera(camera)
+
+        var markerOptions : MarkerOptions = MarkerOptions()
+        markerOptions.position(piazzaHut)
+        markerOptions.title("Piazza Hut")
+        //markerOptions.snippet("HI")
+        map.addMarker(markerOptions)
     }
 }

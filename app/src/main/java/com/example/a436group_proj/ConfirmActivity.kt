@@ -3,6 +3,7 @@ package com.example.a436group_proj
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RatingBar
@@ -46,11 +47,11 @@ class ConfirmActivity: AppCompatActivity() {
         cardexpire = findViewById(R.id.cardExpire)
         cardcvv = findViewById(R.id.cardCVV)
 
-        //Retrieves email to save order or redirects to login if not logged in
+        //Retrieves username to save order or redirects to login if not logged in
         val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
-        val email = sharedPreferences.getString("email", null)
-        if (email == null) {
-            Toast.makeText(this, "User email not found. Please log in again.", Toast.LENGTH_SHORT).show()
+        val username = sharedPreferences.getString("username", null)
+        if (username == null) {
+            Toast.makeText(this, "User username not found. Please log in again.", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -61,20 +62,18 @@ class ConfirmActivity: AppCompatActivity() {
         displayorder(order)
         displayCreditInfo()
 
-        val hasDiscount = checkForDiscount()
-        if (hasDiscount) {
-            Toast.makeText(
-                this,
-                "You've earned a discount for a previous 5-star rating!",
-                Toast.LENGTH_LONG
-            ).show()
-            order.applyDiscount(10) 
-        }
+        //val hasDiscount = checkForDiscount()
+        //if (hasDiscount) {
+            //Toast.makeText(this,"You've earned a discount for a previous 5-star rating!", Toast.LENGTH_LONG ).show()
+            //order.applyDiscount(10)
+        //}
 
 
         rating.setOnRatingBarChangeListener { _, rating, _ ->
             if (rating == 5.0f) {
                 discountInfoTV.text = "Discount: 10%"
+                order.applyDiscount(10)
+                totalPriceTV.text = "Total Price: $${"%.2f".format(order.getTotalPrice())}"
             }
             Toast.makeText(this, "Thank you for rating our small business!",
                 Toast.LENGTH_SHORT).show()
@@ -96,18 +95,15 @@ class ConfirmActivity: AppCompatActivity() {
                 saveCreditInfo(cardNameString, cardNumberString, cardExpireString, cardCVVString)
 
                 // Save the order to Firebase
-                if (email != null) {
-                    saveOrderToFirebase(order, email)
+                if (username != null) {
+                    saveOrderToFirebase(order, username)
                 } else {
-                    Toast.makeText(this, "User email not found", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "User username not found", Toast.LENGTH_SHORT).show()
                 }
                 
                 HomeActivity.order.clearOrder()
-                Toast.makeText(this, "Thank you for your order! A confirmation email was sent to you.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Thank you for ordering from Piazza Hut", Toast.LENGTH_SHORT).show()
 
-                // send email
-                var email : String = ""
-                sendEmail(order, email)
 
                 finish()
             }
@@ -207,21 +203,6 @@ class ConfirmActivity: AppCompatActivity() {
         cardnumber.setText(number)
         cardexpire.setText(expiry)
         cardcvv.setText(cvv)
-    }
-
-    fun sendEmail(order: Order, recipient: String) {
-        val subject = "Piazza Hut"
-        val body = "Thank you for ordering! Your order is being prepared.\n" + order.orderSummary()
-
-        val intent = Intent(Intent.ACTION_SEND).apply {
-            type = "text/plain"
-            putExtra(Intent.EXTRA_EMAIL, arrayOf(recipient))
-            putExtra(Intent.EXTRA_SUBJECT, subject)
-            putExtra(Intent.EXTRA_TEXT, body)
-        }
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivity(intent)
-        }
     }
 
 }
