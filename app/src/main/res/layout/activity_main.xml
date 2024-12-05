@@ -92,6 +92,33 @@
         android:text="Name:"
         android:textStyle="bold"
         android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/emailInputET"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp" />
+
+    <!-- Email Input -->
+    <EditText
+        android:id="@+id/emailInputET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your email"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/emailLabelTXT"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+
+
+    <!-- Email Label -->
+    <TextView
+        android:id="@+id/emailLabelTXT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email:"
+        android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/passwordInputET"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
@@ -118,7 +145,7 @@
         android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:text="Login"
-        app:layout_constraintTop_toBottomOf="@id/nameInputET"
+        app:layout_constraintTop_toBottomOf="@id/emailInputET"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/createAccountButton"
         android:layout_marginTop="45dp"

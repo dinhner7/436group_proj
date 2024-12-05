@@ -197,11 +197,21 @@
 
         </LinearLayout>
 
-        <ImageView
+        <!-- <ImageView
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/pizza" />
+            android:src="@drawable/pizza" /> -->
+
+        <fragment
+            android:layout_width="200dp"
+            android:layout_height="200sp"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
 
