@@ -196,7 +196,7 @@ class MainActivity : AppCompatActivity() {
     private fun autoLogin() {
         val username = sharedPreferences.getString("username", null)
         val email = sharedPreferences.getString("email", null)
-        email!!.trim()
+        email?.trim()
         if (username != null && email != null) {
             val intent = Intent(this, HomeActivity::class.java)
             intent.putExtra("USERNAME", username)
