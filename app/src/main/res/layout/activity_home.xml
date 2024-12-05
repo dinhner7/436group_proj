@@ -12,10 +12,14 @@
         android:layout_weight="3"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="80dp"
+        <AnalogClock
+            android:id="@+id/analogClock"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/logo_nobackground" />
+            android:layout_centerInParent="true"
+            android:hand_hourTint="@color/white"
+            android:hand_minuteTint="@color/white"
+            android:dialTint="@color/piazza_darker_blue"/>
 
         <TextView
             android:id="@+id/greeting"
@@ -25,7 +29,8 @@
             android:layout_weight="5"
             android:text="testing"
             android:textColor="@color/piazza_darker_blue"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:layout_marginLeft="4dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/logout"
