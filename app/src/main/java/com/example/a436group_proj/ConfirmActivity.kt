@@ -29,6 +29,7 @@ class ConfirmActivity: AppCompatActivity() {
     private lateinit var database: DatabaseReference
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm)
@@ -47,6 +48,7 @@ class ConfirmActivity: AppCompatActivity() {
         cardexpire = findViewById(R.id.cardExpire)
         cardcvv = findViewById(R.id.cardCVV)
 
+
         //Retrieves username to save order or redirects to login if not logged in
         val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
         val username = sharedPreferences.getString("username", null)
@@ -62,21 +64,25 @@ class ConfirmActivity: AppCompatActivity() {
         displayorder(order)
         displayCreditInfo()
 
-        //val hasDiscount = checkForDiscount()
-        //if (hasDiscount) {
-            //Toast.makeText(this,"You've earned a discount for a previous 5-star rating!", Toast.LENGTH_LONG ).show()
-            //order.applyDiscount(10)
-        //}
+        val hasDiscount = checkForDiscount()
+        if (hasDiscount) {
+
+            order.applyDiscount(10)
+            discountInfoTV.text = "Discount applied: 10%"
+            totalPriceTV.text = "Total Price: $${"%.2f".format(order.getTotalPrice())}"
+        }
 
 
         rating.setOnRatingBarChangeListener { _, rating, _ ->
             if (rating == 5.0f) {
-                discountInfoTV.text = "Discount: 10%"
-                order.applyDiscount(10)
-                totalPriceTV.text = "Total Price: $${"%.2f".format(order.getTotalPrice())}"
-            }
+               saveRating(true)
+                Toast.makeText(this,"Thank you for the 5-star rating! A 10% discount will be applied to your next order.",Toast.LENGTH_SHORT).show()
+
+            }else{
             Toast.makeText(this, "Thank you for rating our small business!",
                 Toast.LENGTH_SHORT).show()
+               saveRating(false)
+                }
         }
 
 
@@ -91,7 +97,6 @@ class ConfirmActivity: AppCompatActivity() {
                 Toast.makeText(this, "Please fill out all credit info fields.",
                     Toast.LENGTH_SHORT).show()
             } else{
-                saveRating(rating.rating)
                 saveCreditInfo(cardNameString, cardNumberString, cardExpireString, cardCVVString)
 
                 // Save the order to Firebase
@@ -102,6 +107,7 @@ class ConfirmActivity: AppCompatActivity() {
                 }
                 
                 HomeActivity.order.clearOrder()
+
                 Toast.makeText(this, "Thank you for ordering from Piazza Hut", Toast.LENGTH_SHORT).show()
 
 
@@ -166,19 +172,24 @@ class ConfirmActivity: AppCompatActivity() {
         totalPriceTV.text = "Total Price: $${"%.2f".format(totalPrice)}"
     }
 
-    private fun saveRating(rating: Float) {
-        if (rating == 5.0f) {
+    private fun saveRating(hasDiscount:Boolean) {
             val sharedPref = getSharedPreferences("RatingData", Context.MODE_PRIVATE)
             with(sharedPref.edit()) {
-                putBoolean("hasGivenFiveStars", true)
+                putBoolean("hasGivenFiveStars", hasDiscount)
                 apply()
-            }
+
         }
     }
 
     private fun checkForDiscount(): Boolean {
         val sharedPref = getSharedPreferences("RatingData", Context.MODE_PRIVATE)
-        return sharedPref.getBoolean("hasGivenFiveStars", false)
+        val hasGivenFiveStars = sharedPref.getBoolean("hasGivenFiveStars",false)
+        if (hasGivenFiveStars){
+            with(sharedPref.edit()){
+                putBoolean("hasGivenFiveStars",false).apply()
+            }
+        }
+        return hasGivenFiveStars
     }
 
     private fun saveCreditInfo(name: String, number: String, expire: String, cvv: String) {

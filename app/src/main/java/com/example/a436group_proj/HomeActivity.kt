@@ -137,7 +137,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
 
                         // Set Total Price
                         val totalPriceTV = orderView.findViewById<TextView>(R.id.totalPriceTV)
-                        val totalPrice = orderData["totalPrice"] as? Double ?: 0.0
+                        val totalPrice = (orderData["totalPrice"] as? Double ?: 0.0).toFloat()
                         totalPriceTV.text = "$${String.format("%.2f", totalPrice)}"
 
                         // Get Pizza Details
@@ -205,7 +205,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
     // Add cheese pizza to the order
     fun addCheesePizza() {
         var pizza = Pizza()
-        pizza.setSize("2")
+        pizza.setSize("Large")
         pizza.setCrust("normal")
         pizza.setCheese("mozzarella")
         order.addPizza(pizza)
@@ -217,7 +217,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
     // Add pepperoni pizza to the order
     fun addPepperoniPizza() {
         var pizza = Pizza()
-        pizza.setSize("2")
+        pizza.setSize("Large")
         pizza.setCrust("normal")
         pizza.setCheese("mozzarella")
         pizza.addTopping("pepperoni")
