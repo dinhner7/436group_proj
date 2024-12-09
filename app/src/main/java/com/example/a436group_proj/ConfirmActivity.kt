@@ -134,7 +134,7 @@ class ConfirmActivity: AppCompatActivity() {
         // Prepare the order data
         val orderData = mutableMapOf<String, Any>()
         orderData["timestamp"] = timestamp
-        orderData["totalPrice"] = order.getTotalPrice()
+        orderData["totalPrice"] = order.getTotalPrice() + .001f
 
         val pizzasList = mutableListOf<Map<String, Any>>()
         for (pizza in order.getOrder()) {
