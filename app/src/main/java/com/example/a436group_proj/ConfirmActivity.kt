@@ -66,7 +66,7 @@ class ConfirmActivity: AppCompatActivity() {
 
         val hasDiscount = checkForDiscount()
         if (hasDiscount) {
-            order.applyDiscount(10) // 할인을 실제로 적용
+            order.applyDiscount(10) 
             discountInfoTV.text = "Discount applied: 10%"
             totalPriceTV.text = "Total Price: $${"%.2f".format(order.getTotalPrice())}"
         }
