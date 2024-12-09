@@ -188,6 +188,7 @@ class MainActivity : AppCompatActivity() {
                     val intent = Intent(this@MainActivity, HomeActivity::class.java)
                     intent.putExtra("USERNAME", safeUsername)
                     intent.putExtra("EMAIL", email)
+                    saveLoginState(safeUsername, email)
                     startActivity(intent)
                     //finish()
                 } else {
