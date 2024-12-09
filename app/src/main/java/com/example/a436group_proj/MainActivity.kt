@@ -1,5 +1,6 @@
 package com.example.a436group_proj
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -134,8 +135,11 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val storedPassword = snapshot.child("accountInfo/password").getValue(String::class.java)
                 val storedEmail = snapshot.child("accountInfo/email").getValue(String::class.java)
+                val hasGivenFiveStars = snapshot.child("hasGivenFiveStars").getValue(Boolean::class.java) ?: false
+
                 if (storedPassword != null && storedPassword == password) {
                     saveLoginState(username, storedEmail!!)
+                    syncRatingFromFirebase(hasGivenFiveStars)
                     Toast.makeText(this@MainActivity, "Login successful", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@MainActivity, HomeActivity::class.java)
                     intent.putExtra("USERNAME", safeUsername)
@@ -151,6 +155,13 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity, "Database error: ${error.message}", Toast.LENGTH_LONG).show()
             }
         })
+    }
+    private fun syncRatingFromFirebase(hasDiscount: Boolean) {
+        val sharedPref = getSharedPreferences("RatingData", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putBoolean("hasGivenFiveStars", hasDiscount)
+            apply()
+        }
     }
 
     private fun createAccount(username: String, password: String, name: String, email: String) {

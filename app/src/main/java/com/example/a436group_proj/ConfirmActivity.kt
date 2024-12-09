@@ -66,23 +66,13 @@ class ConfirmActivity: AppCompatActivity() {
 
         val hasDiscount = checkForDiscount()
         if (hasDiscount) {
-
-            order.applyDiscount(10)
+            order.applyDiscount(10) // 할인을 실제로 적용
             discountInfoTV.text = "Discount applied: 10%"
             totalPriceTV.text = "Total Price: $${"%.2f".format(order.getTotalPrice())}"
         }
 
-
         rating.setOnRatingBarChangeListener { _, rating, _ ->
-            if (rating == 5.0f) {
-               saveRating(true)
-                Toast.makeText(this,"Thank you for the 5-star rating! A 10% discount will be applied to your next order.",Toast.LENGTH_SHORT).show()
 
-            }else{
-            Toast.makeText(this, "Thank you for rating our small business!",
-                Toast.LENGTH_SHORT).show()
-               saveRating(false)
-                }
         }
 
 
@@ -97,6 +87,14 @@ class ConfirmActivity: AppCompatActivity() {
                 Toast.makeText(this, "Please fill out all credit info fields.",
                     Toast.LENGTH_SHORT).show()
             } else{
+                if(rating.rating==5f){
+                    saveRating(true)
+                    Toast.makeText(this,"Thank you for the 5-star rating! A 10% discount will be applied to your next order.",Toast.LENGTH_SHORT).show()
+                } else{
+                    saveRating(false)
+                    Toast.makeText(this, "Thank you for rating our small business!",
+                        Toast.LENGTH_SHORT).show()
+                }
                 saveCreditInfo(cardNameString, cardNumberString, cardExpireString, cardCVVString)
 
                 // Save the order to Firebase
@@ -107,7 +105,6 @@ class ConfirmActivity: AppCompatActivity() {
                 }
                 
                 HomeActivity.order.clearOrder()
-
                 Toast.makeText(this, "Thank you for ordering from Piazza Hut", Toast.LENGTH_SHORT).show()
 
 
@@ -160,7 +157,32 @@ class ConfirmActivity: AppCompatActivity() {
             }
     }
 
+    private fun saveRating(hasDiscount: Boolean) {
+        val sharedPref = getSharedPreferences("RatingData", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putBoolean("hasGivenFiveStars", hasDiscount)
+            apply()
+        }
 
+        val sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val username = sharedPreferences.getString("username", null)
+        if (username != null) {
+            saveRatingToFirebase(username, hasDiscount)
+        }
+    }
+
+    private fun saveRatingToFirebase(username: String, hasDiscount: Boolean) {
+        val safeUsername = username.replace(".", ",")
+        val userRef = database.child(safeUsername)
+
+        userRef.child("hasGivenFiveStars").setValue(hasDiscount)
+            .addOnSuccessListener {
+                Log.d("Firebase", "Rating successfully saved to Firebase.")
+            }
+            .addOnFailureListener { exception ->
+                Log.e("Firebase", "Failed to save rating to Firebase: ${exception.message}")
+            }
+    }
 
     private fun displayorder(order: Order) {
         val totalPrice = order.getTotalPrice()
@@ -172,25 +194,32 @@ class ConfirmActivity: AppCompatActivity() {
         totalPriceTV.text = "Total Price: $${"%.2f".format(totalPrice)}"
     }
 
-    private fun saveRating(hasDiscount:Boolean) {
-            val sharedPref = getSharedPreferences("RatingData", Context.MODE_PRIVATE)
-            with(sharedPref.edit()) {
-                putBoolean("hasGivenFiveStars", hasDiscount)
-                apply()
-
-        }
-    }
 
     private fun checkForDiscount(): Boolean {
         val sharedPref = getSharedPreferences("RatingData", Context.MODE_PRIVATE)
-        val hasGivenFiveStars = sharedPref.getBoolean("hasGivenFiveStars",false)
-        if (hasGivenFiveStars){
-            with(sharedPref.edit()){
-                putBoolean("hasGivenFiveStars",false).apply()
+        val sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val username = sharedPreferences.getString("username", null)
+
+        if (username != null) {
+            val safeUsername = username.replace(".", ",")
+            val userRef = database.child(safeUsername)
+
+            userRef.child("hasGivenFiveStars").get().addOnSuccessListener { snapshot ->
+                val hasGivenFiveStars = snapshot.getValue(Boolean::class.java) ?: false
+                with(sharedPref.edit()) {
+                    putBoolean("hasGivenFiveStars", hasGivenFiveStars)
+                    apply()
+                }
+            }.addOnFailureListener { exception ->
+                Log.e("Firebase", "Failed to fetch discount info: ${exception.message}")
             }
         }
-        return hasGivenFiveStars
+
+
+        return sharedPref.getBoolean("hasGivenFiveStars", false)
     }
+
+
 
     private fun saveCreditInfo(name: String, number: String, expire: String, cvv: String) {
         val sharedPref = getSharedPreferences("CreditInfo", Context.MODE_PRIVATE)
