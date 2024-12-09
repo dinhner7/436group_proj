@@ -72,7 +72,10 @@ class ConfirmActivity: AppCompatActivity() {
         }
 
         rating.setOnRatingBarChangeListener { _, rating, _ ->
-
+            if(rating>0){
+                Toast.makeText(this, "Thank you for rating our small business!",
+                    Toast.LENGTH_SHORT).show()
+            }
         }
 
 
@@ -90,10 +93,8 @@ class ConfirmActivity: AppCompatActivity() {
                 if(rating.rating==5f){
                     saveRating(true)
                     Toast.makeText(this,"Thank you for the 5-star rating! A 10% discount will be applied to your next order.",Toast.LENGTH_SHORT).show()
-                } else{
+                } else {
                     saveRating(false)
-                    Toast.makeText(this, "Thank you for rating our small business!",
-                        Toast.LENGTH_SHORT).show()
                 }
                 saveCreditInfo(cardNameString, cardNumberString, cardExpireString, cardCVVString)
 
