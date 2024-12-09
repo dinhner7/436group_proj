@@ -1,5 +1,6 @@
 package com.example.a436group_proj
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -134,10 +135,15 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val storedPassword = snapshot.child("accountInfo/password").getValue(String::class.java)
                 val storedEmail = snapshot.child("accountInfo/email").getValue(String::class.java)
+                val hasGivenFiveStars = snapshot.child("hasGivenFiveStars").getValue(Boolean::class.java) ?: false
+
                 if (storedPassword != null && storedPassword == password) {
                     saveLoginState(username, storedEmail!!)
+                    syncRatingFromFirebase(hasGivenFiveStars)
                     Toast.makeText(this@MainActivity, "Login successful", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                    intent.putExtra("USERNAME", safeUsername)
+                    intent.putExtra("EMAIL", storedEmail)
                     startActivity(intent)
                     //finish()
                 } else {
@@ -149,6 +155,13 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity, "Database error: ${error.message}", Toast.LENGTH_LONG).show()
             }
         })
+    }
+    private fun syncRatingFromFirebase(hasDiscount: Boolean) {
+        val sharedPref = getSharedPreferences("RatingData", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putBoolean("hasGivenFiveStars", hasDiscount)
+            apply()
+        }
     }
 
     private fun createAccount(username: String, password: String, name: String, email: String) {
@@ -173,6 +186,8 @@ class MainActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Toast.makeText(this@MainActivity, "Account created successfully", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                    intent.putExtra("USERNAME", safeUsername)
+                    intent.putExtra("EMAIL", email)
                     startActivity(intent)
                     //finish()
                 } else {
@@ -191,8 +206,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun autoLogin() {
         val username = sharedPreferences.getString("username", null)
-        if (username != null) {
+        val email = sharedPreferences.getString("email", null)
+        email?.trim()
+        if (username != null && email != null) {
             val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtra("USERNAME", username)
+            intent.putExtra("EMAIL", email)
             startActivity(intent)
             //finish()
         }

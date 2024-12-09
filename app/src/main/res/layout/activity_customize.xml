@@ -636,7 +636,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/costTXT"
                 android:layout_toEndOf="@+id/costTXT"
-                android:text="0.00"
                 android:textSize="20sp" />
 
             <androidx.appcompat.widget.AppCompatButton

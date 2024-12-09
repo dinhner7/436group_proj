@@ -28,6 +28,7 @@ import android.widget.LinearLayout
 import java.text.SimpleDateFormat
 import java.util.Locale
 import android.app.AlertDialog
+import android.content.Context
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -55,7 +56,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        database = FirebaseDatabase.getInstance() // .reference.child("users")
+        database = FirebaseDatabase.getInstance()// .reference.child("users")
 
 
         setContentView(R.layout.activity_home)
@@ -63,6 +64,8 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
 
         order = Order()
+
+
 
         // change name in greeting
         greetingTV = findViewById(R.id.greeting)
@@ -73,6 +76,10 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
         addPepperoniPizzaB = findViewById(R.id.addPepperoniPizza)
         customizePizzaB = findViewById(R.id.sendToCustomize)
         checkoutB = findViewById(R.id.checkout)
+
+
+
+
 
         var builder : AdRequest.Builder = AdRequest.Builder()
         builder.addKeyword("food")
@@ -101,6 +108,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onResume()
         // Reload past orders when the activity resumes
         loadPastOrders()
+
     }
 
 
@@ -136,7 +144,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
 
                         // Set Total Price
                         val totalPriceTV = orderView.findViewById<TextView>(R.id.totalPriceTV)
-                        val totalPrice = orderData["totalPrice"] as? Double ?: 0.0
+                        val totalPrice = (orderData["totalPrice"] as? Double ?: 0.0).toFloat()
                         totalPriceTV.text = "$${String.format("%.2f", totalPrice)}"
 
                         // Get Pizza Details
@@ -204,7 +212,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
     // Add cheese pizza to the order
     fun addCheesePizza() {
         var pizza = Pizza()
-        pizza.setSize("2")
+        pizza.setSize("Large")
         pizza.setCrust("normal")
         pizza.setCheese("mozzarella")
         order.addPizza(pizza)
@@ -216,7 +224,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
     // Add pepperoni pizza to the order
     fun addPepperoniPizza() {
         var pizza = Pizza()
-        pizza.setSize("2")
+        pizza.setSize("Large")
         pizza.setCrust("normal")
         pizza.setCheese("mozzarella")
         pizza.addTopping("pepperoni")
@@ -286,19 +294,15 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
             when (size) {
                 "Small" -> {
                     pizza.setSize("Small")
-                    pizza.setBasePrice(10.00f)
                 }
                 "Medium" -> {
                     pizza.setSize("Medium")
-                    pizza.setBasePrice(12.00f)
                 }
                 "Large" -> {
                     pizza.setSize("Large")
-                    pizza.setBasePrice(16.00f)
                 }
                 else -> {
                     pizza.setSize("Unknown")
-                    pizza.setBasePrice(0f)
                 }
             }
 
@@ -316,8 +320,7 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
             order.addToPrice(pizza.getTotalCost())
         }
     }
-
-
+    
     // Direct to customization view
     fun sendToCustomize() {
         var intent : Intent = Intent( this, Customize::class.java )
@@ -326,6 +329,12 @@ class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
 
     // Direct to checkout view
     fun sendToCheckout(request : AdRequest, adUnitId : String, adLoad : AdLoad) {
+
+        if (order.getOrder().isEmpty()) {
+            Toast.makeText(this, "Your cart is empty. Please add items to your cart before checking out.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
 
         InterstitialAd.load(this, adUnitId, request, adLoad)
     }
